@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Times</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#f4f6f9;
+}
+
+header{
+    background:#0d1b2a;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+h1{
+    color:#fca311;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+    padding:30px;
+}
+
+.time{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    text-align:center;
+    box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+
+.voltar{
+    margin:30px;
+    display:inline-block;
+    background:#fca311;
+    padding:10px 20px;
+    border-radius:8px;
+    text-decoration:none;
+    color:black;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+    <h1>📋 Times Participantes</h1>
+</header>
+
+<div class="grid">
+
+    <div class="time">
+        <h2>3ºA</h2>
+        <p>Capitão: João</p>
+    </div>
+
+    <div class="time">
+        <h2>3ºB</h2>
+        <p>Capitão: Pedro</p>
+    </div>
+
+    <div class="time">
+        <h2>2ºA</h2>
+        <p>Capitão: Lucas</p>
+    </div>
+
+    <div class="time">
+        <h2>2ºC</h2>
+        <p>Capitão: Gabriel</p>
+    </div>
+
+</div>
+
+<a href="index.html" class="voltar">⬅ Voltar</a>
+
+</body>
+</html>
