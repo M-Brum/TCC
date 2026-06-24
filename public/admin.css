@@ -1,0 +1,83 @@
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f9;
+}
+
+/* HEADER */
+
+header{
+    background:#0d1b2a;
+    color:white;
+
+    padding:20px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    color:#fca311;
+
+    font-size:32px;
+    font-weight:bold;
+
+    text-shadow:
+        0 0 5px #fca311,
+        0 0 10px #fca311,
+        0 0 20px #fca311;
+}
+
+/* CONTAINER */
+
+.admin-container{
+    padding:40px;
+}
+
+/* CARDS */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:white;
+
+    border-radius:15px;
+
+    padding:30px;
+
+    text-align:center;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+
+    transition:.3s;
+
+    cursor:pointer;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card h2{
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#666;
+}
+
+/* LOGOUT */
+
+.logout{
+    background:#d62828;
+    color:white;
+}
+
+.logout:hover{
+    background:#ba181b;
+}

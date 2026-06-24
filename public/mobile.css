@@ -1,0 +1,15 @@
+.hero h2{
+    font-size:28px;
+}
+
+.cards{
+    grid-template-columns:1fr;
+}
+
+header{
+    flex-direction:column;
+}
+
+.sidebar{
+    width:220px;
+}

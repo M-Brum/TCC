@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterHub</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+rel="stylesheet"
+href="mobile.css"
+media="screen and (max-width: 768px)">
+
+    <style>
+        body {
+    
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+        }
+
+        /* HEADER */
+        header {
+            background-color: #0d1b2a;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 22px;
+        }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #1b263b, #415a77);
+            color: white;
+        }
+
+        .hero h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: #fca311;
+            color: black;
+            padding: 15px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #ffba3a;
+        }
+
+        /* CARDS */
+        .container {
+            padding: 40px 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card h3 {
+            margin-top: 10px;
+        }
+
+        /* DESTAQUE */
+        .highlight {
+            background-color: #ffffff;
+            margin-top: 40px;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .highlight h2 {
+            margin-bottom: 10px;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #0d1b2a;
+            color: white;
+            margin-top: 40px;
+        }
+   
+        .hero h2 {
+    color: #fca311; /* #olha isso: amarelo principal */
+    font-size: 42px;
+
+    text-shadow: 
+        0 0 5px #fca311,
+        0 0 10px #fca311,
+        0 0 20px #ffba3a;
+}
+   
+    </style>
+</head>
+
+<body>
+<!-- Botão Hambúrguer -->
+<div class="menu-btn" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<!-- Menu Lateral -->
+<div id="sidebar" class="sidebar">
+
+    <h2>InterHub</h2>
+
+    <a href="index.html">🏠 Início</a>
+    <a href="jogos.html">⚽ Jogos</a>
+    <a href="classificacao.html">🏆 Classificação</a>
+    <a href="times.html">📋 Times</a>
+    <a href="tabela.html">📅 Tabela</a>
+
+    <hr>
+
+    <a href="loginadm.html">🔐 Administração</a>
+</div>
+  
+    <!-- HEADER -->
+    <header>
+        <h1>Interclasse 2026</h1>
+        <span>Escola Exercito Brasileiro</span>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <h2>InterHub</h2>
+        <p>Acompanhe jogos, resultados e classificações</p>
+      
+    </section>
+
+    <!-- CARDS -->
+    <section class="container">
+        <div class="cards">
+
+            <div class="card" onclick="window.location.href='jogos.html'">
+                <h3>⚽ Jogos</h3>
+                <p>Veja todas as partidas</p>
+            </div>
+            
+            <div class="card" onclick="window.location.href='classificacao.html'">
+                <h3>🏆 Classificação</h3>
+                <p>Ranking dos times</p>
+            </div>
+            
+            <div class="card" onclick="window.location.href='times.html'">
+                <h3>📋 Times</h3>
+                <p>Equipes participantes</p>
+            </div>
+            
+            <div class="card" onclick="window.location.href='tabela.html'">
+                <h3>📅 Tabela</h3>
+                <p>Confrontos e horários</p>
+            </div>
+
+        </div>
+
+        <!-- DESTAQUE -->
+        <div class="highlight">
+            <h2>Próximo Jogo</h2>
+            <p><strong>Time A</strong> vs <strong>Time B</strong></p>
+            <p>Horário a definir</p>
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p> Interclasse Escolar</p>
+        <p>Desenvolvido Pela Equipe Do 3C</p>
+    </footer>
+    <script>
+        function toggleMenu() {
+            document.getElementById("sidebar").classList.toggle("active");
+        }
+        </script>
+</body>
+</html>
