@@ -1,78 +1,62 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jogos</title>
-<link rel="stylesheet" href="style.css">
-<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogos</title>
 
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#f4f6f9;
-}
-
-header{
-    background:#0d1b2a;
-    color:white;
-    text-align:center;
-    padding:20px;
-}
-
-h1{
-    color:#fca311;
-}
-
-.container{
-    max-width:1000px;
-    margin:auto;
-    padding:30px;
-}
-
-.jogo{
-    background:white;
-    padding:20px;
-    margin-bottom:20px;
-    border-radius:10px;
-    box-shadow:0 4px 10px rgba(0,0,0,.1);
-}
-
-.voltar{
-    display:inline-block;
-    margin-top:20px;
-    background:#fca311;
-    color:black;
-    padding:10px 20px;
-    border-radius:8px;
-    text-decoration:none;
-}
-
-</style>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modalidades.css">
 </head>
+
 <body>
 
 <header>
-    <h1>⚽ Jogos</h1>
+    <h1>Interclasse 2026</h1>
+    <span>Escola Exército Brasileiro</span>
 </header>
 
-<div class="container">
+<section class="hero">
+    <h2>Jogos</h2>
+    <p>Escolha uma modalidade</p>
+</section>
 
-    <div class="jogo">
-        <h2>3ºA x 3ºB</h2>
-        <p>Data: 20/06/2026</p>
-        <p>Horário: 09:00</p>
+<section class="container">
+
+    <div class="modalidades">
+
+        <a href="futsal.html" class="modalidade-card">
+            <div class="icone">⚽</div>
+            <h3>Futsal</h3>
+        </a>
+
+        <a href="Vôlei.html" class="modalidade-card">
+            <div class="icone">🏐</div>
+            <h3>Vôlei</h3>
+        </a>
+
+        <a href="basquete.html" class="modalidade-card">
+            <div class="icone">🏀</div>
+            <h3>Basquete</h3>
+        </a>
+
+        <a href="videogame.html" class="modalidade-card">
+            <div class="icone">🎮</div>
+            <h3>Videogame</h3>
+        </a>
+
+        <a href="Tênisdmesa.html" class="modalidade-card">
+            <div class="icone">🏓</div>
+            <h3>Tênis de Mesa</h3>
+        </a>
+
     </div>
 
-    <div class="jogo">
-        <h2>2ºA x 2ºC</h2>
-        <p>Data: 20/06/2026</p>
-        <p>Horário: 10:00</p>
-    </div>
+</section>
 
-    <a href="index.html" class="voltar">⬅ Voltar</a>
-
-</div>
+<footer>
+    Desenvolvido pela Equipe 3°C
+</footer>
 
 </body>
 </html>
