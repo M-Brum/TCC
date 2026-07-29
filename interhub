@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterHub</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+        }
+
+        /* HEADER */
+        header {
+            background-color: #0d1b2a;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 22px;
+        }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #1b263b, #415a77);
+            color: white;
+        }
+
+        .hero h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: #fca311;
+            color: black;
+            padding: 15px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #ffba3a;
+        }
+
+        /* CARDS */
+        .container {
+            padding: 40px 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .card h3 {
+            margin-top: 10px;
+        }
+
+        /* DESTAQUE */
+        .highlight {
+            background-color: #ffffff;
+            margin-top: 40px;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .highlight h2 {
+            margin-bottom: 10px;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #0d1b2a;
+            color: white;
+            margin-top: 40px;
+        }
+   
+        .hero h2 {
+    color: #fca311; /* #olha isso: amarelo principal */
+    font-size: 42px;
+
+    text-shadow: 
+        0 0 5px #fca311,
+        0 0 10px #fca311,
+        0 0 20px #ffba3a;
+}
+   
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <h1>Interclasse 2026</h1>
+        <span>Escola Exercito Brasileiro</span>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <h2>InterHub</h2>
+        <p>Acompanhe jogos, resultados e classificações</p>
+        <button class="btn">Ver Jogos</button>
+    </section>
+
+    <!-- CARDS -->
+    <section class="container">
+        <div class="cards">
+
+            <div class="card">
+                <h3>⚽ Jogos</h3>
+                <p>Veja todas as partidas</p>
+            </div>
+
+            <div class="card">
+                <h3>🏆 Classificação</h3>
+                <p>Ranking dos times</p>
+            </div>
+
+            <div class="card">
+                <h3>📋 Times</h3>
+                <p>Equipes participantes</p>
+            </div>
+
+            <div class="card">
+                <h3>📅 Tabela</h3>
+                <p>Confrontos e horários</p>
+            </div>
+
+        </div>
+
+        <!-- DESTAQUE -->
+        <div class="highlight">
+            <h2>Próximo Jogo</h2>
+            <p><strong>3º A</strong> vs <strong>2º B</strong></p>
+            <p>Hoje às 15h</p>
+        </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>Projeto TCC - Interclasse Escolar</p>
+        <p>Desenvolvido Pela Equipe Do 3C</p>
+    </footer>
+
+</body>
+</html>
