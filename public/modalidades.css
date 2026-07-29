@@ -1,0 +1,55 @@
+.modalidades{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:30px;
+
+    margin-top:40px;
+
+}
+
+.modalidade-card{
+
+    background:white;
+
+    border-radius:15px;
+
+    padding:40px;
+
+    text-align:center;
+
+    text-decoration:none;
+
+    color:#0d1b2a;
+
+    transition:.3s;
+
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+
+}
+
+.modalidade-card:hover{
+
+    transform:translateY(-8px);
+
+    background:#fca311;
+
+    color:white;
+
+}
+
+.icone{
+
+    font-size:60px;
+
+    margin-bottom:20px;
+
+}
+
+.modalidade-card h3{
+
+    font-size:25px;
+
+}

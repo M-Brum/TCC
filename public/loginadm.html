@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login Administrativo</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+.login-container{
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:linear-gradient(135deg,#1b263b,#415a77);
+}
+
+.login-box{
+    width:350px;
+
+    background:white;
+
+    padding:40px;
+
+    border-radius:15px;
+
+    box-shadow:0 5px 20px rgba(0,0,0,.3);
+}
+
+.login-box h1{
+    text-align:center;
+
+    color:#fca311;
+
+    margin-bottom:10px;
+
+    text-shadow:
+    0 0 5px #fca311,
+    0 0 10px #fca311;
+}
+
+.login-box p{
+    text-align:center;
+    color:#666;
+    margin-bottom:30px;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:5px;
+    font-weight:bold;
+}
+
+.form-group input{
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #ccc;
+
+    border-radius:8px;
+
+    box-sizing:border-box;
+}
+
+.btn-login{
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    background:#fca311;
+
+    color:black;
+
+    font-weight:bold;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.btn-login:hover{
+    background:#ffba3a;
+}
+
+.voltar{
+    display:block;
+
+    text-align:center;
+
+    margin-top:20px;
+
+    text-decoration:none;
+
+    color:#1b263b;
+
+    font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="login-box">
+
+        <h1>InterHub</h1>
+
+        <p>Área Administrativa</p>
+
+        <form action="/login" method="POST">
+
+            <div class="form-group">
+                <label>Usuário</label>
+                <input
+                type="text"
+                name="usuario"
+                placeholder="Digite seu usuário"
+                required>
+            </div>
+
+            <div class="form-group">
+                <label>Senha</label>
+                <input
+                type="password"
+                name="senha"
+                placeholder="Digite sua senha"
+                required>
+            </div>
+
+            <button type="submit" class="btn-login">
+                Entrar
+            </button>
+
+        </form>
+
+        <a href="index.html" class="voltar">
+            ← Voltar ao início
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
