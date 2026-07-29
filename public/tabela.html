@@ -1,93 +1,571 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-<meta charset="UTF-8">
-<title>Tabela de Jogos</title>
-<link rel="stylesheet" href="style.css">
 
-<style>
+    <meta charset="UTF-8">
 
-body{
-    margin:0;
-    font-family:Arial;
-    background:#f4f6f9;
-}
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-header{
-    background:#0d1b2a;
-    color:white;
-    text-align:center;
-    padding:20px;
-}
+    <title>Tabela de Jogos - InterHub</title>
 
-h1{
-    color:#fca311;
-}
+    <link rel="stylesheet" href="/style.css">
 
-table{
-    width:90%;
-    margin:30px auto;
-    background:white;
-    border-collapse:collapse;
-}
+    <style>
 
-th{
-    background:#fca311;
-    padding:15px;
-}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1b263b;
+        }
 
-td{
-    padding:15px;
-    text-align:center;
-    border-bottom:1px solid #ddd;
-}
+        header {
+            background: #0d1b2a;
+            color: white;
+            text-align: center;
+            padding: 25px 20px;
+        }
 
-.voltar{
-    margin-left:5%;
-    background:#fca311;
-    padding:10px 20px;
-    border-radius:8px;
-    text-decoration:none;
-    color:black;
-}
+        header h1 {
+            margin: 0;
+            color: #fca311;
+        }
 
-</style>
+        header p {
+            margin-bottom: 0;
+            color: #d9e1e8;
+        }
+
+        .filtros {
+            width: 90%;
+            max-width: 1100px;
+            margin: 25px auto;
+
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filtro {
+            border: none;
+            background: #1b263b;
+            color: white;
+
+            padding: 11px 18px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .filtro:hover,
+        .filtro.ativo {
+            background: #fca311;
+            color: #111;
+        }
+
+        .tabela-container {
+            width: 90%;
+            max-width: 1100px;
+
+            margin: 0 auto 30px;
+
+            overflow-x: auto;
+
+            background: white;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 5px 18px
+                rgba(0, 0, 0, 0.12);
+        }
+
+        table {
+            width: 100%;
+            min-width: 750px;
+
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #fca311;
+            color: #111;
+
+            padding: 15px;
+
+            text-align: center;
+        }
+
+        td {
+            padding: 15px;
+
+            text-align: center;
+
+            border-bottom:
+                1px solid #ddd;
+        }
+
+        tbody tr:hover {
+            background: #f7f9fb;
+        }
+
+        .sem-jogos {
+            display: none;
+
+            width: 90%;
+            max-width: 700px;
+
+            margin: 25px auto;
+
+            padding: 25px;
+
+            text-align: center;
+
+            background: white;
+
+            border-radius: 10px;
+
+            box-shadow:
+                0 4px 15px
+                rgba(0, 0, 0, 0.1);
+        }
+
+        .voltar-area {
+            width: 90%;
+            max-width: 1100px;
+
+            margin: 0 auto 40px;
+        }
+
+        .voltar {
+            display: inline-block;
+
+            background: #fca311;
+
+            padding: 11px 20px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            color: #111;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+        }
+
+        .voltar:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 20px 10px;
+            }
+
+            header h1 {
+                font-size: 25px;
+            }
+
+            .filtro {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 <body>
 
 <header>
+
     <h1>📅 Tabela de Jogos</h1>
+
+    <p>
+        Confira os confrontos, datas e horários do Interclasse
+    </p>
+
 </header>
 
-<table>
 
-<tr>
-    <th>Data</th>
-    <th>Horário</th>
-    <th>Partida</th>
-</tr>
+<!-- BOTÕES DAS MODALIDADES -->
 
-<tr>
-    <td>20/06</td>
-    <td>09:00</td>
-    <td>3ºA x 3ºB</td>
-</tr>
+<section class="filtros">
 
-<tr>
-    <td>20/06</td>
-    <td>10:00</td>
-    <td>2ºA x 2ºC</td>
-</tr>
+    <button
+        class="filtro ativo"
+        onclick="filtrarJogos('todos', this)"
+    >
+        📋 Todos
+    </button>
 
-<tr>
-    <td>21/06</td>
-    <td>09:00</td>
-    <td>1ºA x 1ºB</td>
-</tr>
+    <button
+        class="filtro"
+        onclick="filtrarJogos('futsal', this)"
+    >
+        ⚽ Futsal
+    </button>
 
-</table>
+    <button
+        class="filtro"
+        onclick="filtrarJogos('volei', this)"
+    >
+        🏐 Vôlei
+    </button>
 
-<a href="index.html" class="voltar">⬅ Voltar</a>
+    <button
+        class="filtro"
+        onclick="filtrarJogos('basquete', this)"
+    >
+        🏀 Basquete
+    </button>
+
+    <button
+        class="filtro"
+        onclick="filtrarJogos('videogame', this)"
+    >
+        🎮 Videogame
+    </button>
+
+    <button
+        class="filtro"
+        onclick="filtrarJogos('tenis', this)"
+    >
+        🏓 Tênis de Mesa
+    </button>
+
+</section>
+
+
+<!-- TABELA -->
+
+<div class="tabela-container">
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>
+                    Modalidade
+                </th>
+
+                <th>
+                    Data
+                </th>
+
+                <th>
+                    Horário
+                </th>
+
+                <th>
+                    Confronto
+                </th>
+
+                <th>
+                    Local
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody id="corpoTabela">
+
+            <tr data-modalidade="futsal">
+
+                <td>
+                    ⚽ Futsal
+                </td>
+
+                <td>
+                    20/06
+                </td>
+
+                <td>
+                    09:00
+                </td>
+
+                <td>
+                    3º A × 3º B
+                </td>
+
+                <td>
+                    Quadra
+                </td>
+
+            </tr>
+
+
+            <tr data-modalidade="futsal">
+
+                <td>
+                    ⚽ Futsal
+                </td>
+
+                <td>
+                    20/06
+                </td>
+
+                <td>
+                    10:00
+                </td>
+
+                <td>
+                    2º A × 2º C
+                </td>
+
+                <td>
+                    Quadra
+                </td>
+
+            </tr>
+
+
+            <tr data-modalidade="volei">
+
+                <td>
+                    🏐 Vôlei
+                </td>
+
+                <td>
+                    21/06
+                </td>
+
+                <td>
+                    09:00
+                </td>
+
+                <td>
+                    1º A × 1º B
+                </td>
+
+                <td>
+                    Quadra
+                </td>
+
+            </tr>
+
+
+            <tr data-modalidade="basquete">
+
+                <td>
+                    🏀 Basquete
+                </td>
+
+                <td>
+                    21/06
+                </td>
+
+                <td>
+                    10:00
+                </td>
+
+                <td>
+                    2º B × 3º A
+                </td>
+
+                <td>
+                    Quadra
+                </td>
+
+            </tr>
+
+
+            <tr data-modalidade="videogame">
+
+                <td>
+                    🎮 Videogame
+                </td>
+
+                <td>
+                    22/06
+                </td>
+
+                <td>
+                    09:00
+                </td>
+
+                <td>
+                    Jogador 1 × Jogador 2
+                </td>
+
+                <td>
+                    Sala de informática
+                </td>
+
+            </tr>
+
+
+            <tr data-modalidade="tenis">
+
+                <td>
+                    🏓 Tênis de Mesa
+                </td>
+
+                <td>
+                    22/06
+                </td>
+
+                <td>
+                    10:00
+                </td>
+
+                <td>
+                    3º C × 2º A
+                </td>
+
+                <td>
+                    Pátio
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<div
+    id="semJogos"
+    class="sem-jogos"
+>
+
+    Nenhum jogo cadastrado nesta modalidade.
+
+</div>
+
+
+<div class="voltar-area">
+
+    <a
+        href="/index.html"
+        class="voltar"
+    >
+        ⬅ Voltar para o início
+    </a>
+
+</div>
+
+
+<script>
+
+function filtrarJogos(
+    modalidade,
+    botao
+) {
+
+    const linhas =
+    document.querySelectorAll(
+        "#corpoTabela tr"
+    );
+
+    let quantidade =
+    0;
+
+
+    linhas.forEach(
+        function(linha) {
+
+            const modalidadeLinha =
+            linha.dataset.modalidade;
+
+
+            if (
+
+                modalidade === "todos"
+
+                ||
+
+                modalidadeLinha === modalidade
+
+            ) {
+
+                linha.style.display =
+                "";
+
+                quantidade++;
+
+            }
+
+            else {
+
+                linha.style.display =
+                "none";
+
+            }
+
+        }
+    );
+
+
+    const botoes =
+    document.querySelectorAll(
+        ".filtro"
+    );
+
+
+    botoes.forEach(
+        function(item) {
+
+            item.classList.remove(
+                "ativo"
+            );
+
+        }
+    );
+
+
+    botao.classList.add(
+        "ativo"
+    );
+
+
+    const mensagem =
+    document.getElementById(
+        "semJogos"
+    );
+
+
+    if (
+        quantidade === 0
+    ) {
+
+        mensagem.style.display =
+        "block";
+
+    }
+
+    else {
+
+        mensagem.style.display =
+        "none";
+
+    }
+
+}
+
+</script>
 
 </body>
+
 </html>
