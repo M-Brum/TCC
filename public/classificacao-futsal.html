@@ -3,61 +3,66 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>Classificação - Futsal</title>
+    <title>Classificação - Futsal</title>
 
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 
-<style>
+    <style>
 
-table{
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,.15);
+        }
 
-width:100%;
+        th {
+            background: #0d1b2a;
+            color: white;
+            padding: 15px;
+        }
 
-border-collapse:collapse;
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
 
-margin-top:30px;
+        tr:hover {
+            background: #f5f5f5;
+        }
 
-background:white;
+        .mensagem {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.10);
+        }
 
-border-radius:12px;
+        .voltar {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 20px;
+            background: #fca311;
+            color: #111;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
 
-overflow:hidden;
-
-box-shadow:0 5px 15px rgba(0,0,0,.15);
-
-}
-
-th{
-
-background:#0d1b2a;
-
-color:white;
-
-padding:15px;
-
-}
-
-td{
-
-padding:12px;
-
-text-align:center;
-
-border-bottom:1px solid #ddd;
-
-}
-
-tr:hover{
-
-background:#f5f5f5;
-
-}
-
-</style>
+    </style>
 
 </head>
 
@@ -65,105 +70,212 @@ background:#f5f5f5;
 
 <header>
 
-<h1>Interclasse 2026</h1>
+    <h1>Interclasse 2026</h1>
 
-<span>Escola Exército Brasileiro</span>
+    <span>Escola Exército Brasileiro</span>
 
 </header>
 
+
 <section class="hero">
 
-<h2>⚽ FUTSAL</h2>
+    <h2>⚽ FUTSAL</h2>
 
-<p>Classificação</p>
+    <p>Classificação</p>
 
 </section>
+
 
 <section class="container">
 
-<table>
+    <table>
 
-<tr>
+        <thead>
 
-<th>Pos</th>
+            <tr>
 
-<th>Time</th>
+                <th>Pos</th>
 
-<th>P</th>
+                <th>Time</th>
 
-<th>V</th>
+                <th>P</th>
 
-<th>E</th>
+                <th>V</th>
 
-<th>D</th>
+                <th>E</th>
 
+                <th>D</th>
 
+            </tr>
 
-</tr>
+        </thead>
 
-<tr>
+        <tbody id="tabelaClassificacao">
 
-<td>1°</td>
+        </tbody>
 
-<td>time a</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
+    </table>
 
 
+    <div
+        id="mensagem"
+        class="mensagem"
+        style="display:none;"
+    >
 
-</tr>
+        🏆 Nenhum time de Futsal cadastrado ainda.
 
-<tr>
-
-<td>2°</td>
-
-<td>time b</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
+    </div>
 
 
+    <a
+        href="/classificacao.html"
+        class="voltar"
+    >
 
-</tr>
+        ⬅ Voltar para modalidades
 
-<tr>
-
-<td>3°</td>
-
-<td>time c</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-
-
-</tr>
-
-</table>
+    </a>
 
 </section>
 
+
 <footer>
 
-Equipe 3°C
+    InterHub © 2026
 
 </footer>
 
+
+<script>
+
+async function carregarClassificacao() {
+
+    try {
+
+        const resposta =
+            await fetch("/api/classificacao");
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                "Erro ao buscar classificação."
+            );
+
+        }
+
+        const times =
+            await resposta.json();
+
+
+        const tabela =
+            document.getElementById(
+                "tabelaClassificacao"
+            );
+
+        const mensagem =
+            document.getElementById(
+                "mensagem"
+            );
+
+
+        // Mostra somente os times de Futsal
+
+        const futsal =
+            times.filter(
+                time =>
+                    time.modalidade
+                    .toLowerCase()
+                    === "futsal"
+            );
+
+
+        tabela.innerHTML = "";
+
+
+        if (futsal.length === 0) {
+
+            mensagem.style.display =
+                "block";
+
+            return;
+
+        }
+
+
+        mensagem.style.display =
+            "none";
+
+
+        futsal.forEach(
+            (time, index) => {
+
+                const linha =
+                    document.createElement("tr");
+
+
+                linha.innerHTML = `
+
+                    <td>
+                        ${index + 1}°
+                    </td>
+
+                    <td>
+                        ${time.time}
+                    </td>
+
+                    <td>
+                        ${time.pontos}
+                    </td>
+
+                    <td>
+                        ${time.vitorias}
+                    </td>
+
+                    <td>
+                        ${time.empates}
+                    </td>
+
+                    <td>
+                        ${time.derrotas}
+                    </td>
+
+                `;
+
+
+                tabela.appendChild(
+                    linha
+                );
+
+            }
+        );
+
+    }
+
+    catch (erro) {
+
+        console.error(erro);
+
+        document.getElementById(
+            "mensagem"
+        ).style.display =
+            "block";
+
+        document.getElementById(
+            "mensagem"
+        ).textContent =
+            "❌ Não foi possível carregar a classificação.";
+
+    }
+
+}
+
+
+carregarClassificacao();
+
+</script>
+
+
 </body>
+
 </html>
