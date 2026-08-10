@@ -3,8 +3,18 @@ require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
 const path = require("path");
+const mysql = require("mysql2/promise");
 
 const app = express();
+const db = mysql.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT
+});
+
+
 
 /* ==========================
    CONFIGURAÇÕES
@@ -154,6 +164,18 @@ app.get("/logout", (req, res) => {
 ========================== */
 
 const PORT = process.env.PORT || 3000;
+db.getConnection()
+    .then(connection => {
+        console.log("==================================");
+        console.log("BANCO DE DADOS CONECTADO");
+        console.log("==================================");
+
+        connection.release();
+    })
+    .catch(error => {
+        console.error("Erro ao conectar ao banco:");
+        console.error(error.message);
+    });
 
 app.listen(PORT, () => {
 
