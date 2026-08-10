@@ -158,6 +158,49 @@ app.get("/logout", (req, res) => {
     });
 
 });
+/* ==========================
+CLASSIFICAÇÃO
+========================== */
+
+app.get("/api/classificacao", async (req, res) => {
+
+    try {
+
+        const [resultados] = await db.query(`
+            SELECT
+                classificacao.id,
+                times.nome AS time,
+                times.turma,
+                times.modalidade,
+                classificacao.pontos,
+                classificacao.vitorias,
+                classificacao.empates,
+                classificacao.derrotas
+            FROM classificacao
+            INNER JOIN times
+                ON classificacao.time_id = times.id
+            ORDER BY
+                classificacao.pontos DESC,
+                classificacao.vitorias DESC,
+                classificacao.empates DESC
+        `);
+
+        res.json(resultados);
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao buscar classificação:",
+            erro
+        );
+
+        res.status(500).json({
+            erro: "Erro ao carregar classificação."
+        });
+
+    }
+
+});
 
 /* ==========================
    SERVIDOR
