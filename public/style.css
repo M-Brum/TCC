@@ -15,11 +15,13 @@ header{
 } 
  
 header h1{ 
-    margin:0; 
-    color:#fca311; 
-    text-shadow: 
-        0 0 4px rgba(252, 163, 17, 0.7), 
-        0 0 8px rgba(252, 163, 17, 0.45); 
+   
+        margin:0; 
+        color:#fca311; 
+        text-shadow: 
+            0 0 2px rgba(252, 163, 17, 0.4),
+            0 0 5px rgba(252, 163, 17, 0.2);
+    
 } 
  
 /* HERO */ 
