@@ -1,861 +1,1513 @@
 <!DOCTYPE html>
+
 <html lang="pt-br">
 
 <head>
 
-    <meta charset="UTF-8">
+```
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <title>Painel Administrativo - InterHub</title>
+<title>Painel Administrativo - InterHub</title>
 
-    <!-- CSS principal do InterHub -->
-    <link rel="stylesheet" href="/style.css">
+<!-- CSS principal do InterHub -->
+<link rel="stylesheet" href="/style.css">
 
-    <style>
 
-        /* ==========================
-           ÁREA DE CADASTRO
-        ========================== */
+<style>
+
+    /* ==========================
+       ÁREA DE CADASTRO
+    ========================== */
+
+    .cadastro-times {
+
+        max-width: 1100px;
+
+        margin: 35px auto;
+
+        padding: 30px;
+
+        background: white;
+
+        border-radius: 15px;
+
+        box-shadow:
+            0 5px 20px
+            rgba(0, 0, 0, 0.12);
+
+    }
+
+
+    .cadastro-times h1 {
+
+        margin-top: 0;
+
+        color: #1b263b;
+
+    }
+
+
+    .cadastro-times p {
+
+        color: #555;
+
+    }
+
+
+    /* ==========================
+       FORMULÁRIO
+    ========================== */
+
+    .form-times {
+
+        display: grid;
+
+        grid-template-columns:
+            1fr
+            1fr
+            1fr
+            auto;
+
+        gap: 15px;
+
+        align-items: end;
+
+        margin-top: 25px;
+
+    }
+
+
+    .campo {
+
+        display: flex;
+
+        flex-direction: column;
+
+    }
+
+
+    .campo label {
+
+        margin-bottom: 7px;
+
+        font-weight: bold;
+
+        color: #1b263b;
+
+    }
+
+
+    .campo input,
+    .campo select {
+
+        padding: 12px;
+
+        border:
+            1px solid #cbd3dc;
+
+        border-radius: 8px;
+
+        font-size: 16px;
+
+    }
+
+
+    .campo input:focus,
+    .campo select:focus {
+
+        outline: none;
+
+        border-color: #fca311;
+
+    }
+
+
+    .btn-cadastrar {
+
+        padding:
+            13px
+            22px;
+
+        border: none;
+
+        border-radius: 8px;
+
+        background: #fca311;
+
+        color: #111;
+
+        font-weight: bold;
+
+        font-size: 16px;
+
+        cursor: pointer;
+
+    }
+
+
+    .btn-cadastrar:hover {
+
+        filter: brightness(1.08);
+
+    }
+
+
+    /* ==========================
+       LISTA
+    ========================== */
+
+    .area-lista {
+
+        margin-top: 35px;
+
+    }
+
+
+    .lista-times {
+
+        list-style: none;
+
+        padding: 0;
+
+    }
+
+
+    .lista-times li {
+
+        display: flex;
+
+        justify-content:
+            space-between;
+
+        align-items: center;
+
+        gap: 20px;
+
+        padding: 15px;
+
+        margin-bottom: 10px;
+
+        background: #f4f6f8;
+
+        border-left:
+            5px solid #fca311;
+
+        border-radius: 8px;
+
+    }
+
+
+    .dados-time {
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 4px;
+
+    }
+
+
+    .btn-excluir {
+
+        padding:
+            9px
+            14px;
+
+        border: none;
+
+        border-radius: 7px;
+
+        background: #c62828;
+
+        color: white;
+
+        cursor: pointer;
+
+    }
+
+
+    .btn-excluir:hover {
+
+        filter: brightness(0.9);
+
+    }
+
+
+    .mensagem-vazia {
+
+        padding: 20px;
+
+        text-align: center;
+
+        background: #f4f6f8;
+
+        border-radius: 8px;
+
+        color: #666;
+
+    }
+
+
+    .mensagem-sucesso {
+
+        margin-top: 15px;
+
+        padding: 12px;
+
+        text-align: center;
+
+        background: #e8f5e9;
+
+        color: #2e7d32;
+
+        border-radius: 8px;
+
+        font-weight: bold;
+
+        display: none;
+
+    }
+
+
+    .mensagem-erro {
+
+        margin-top: 15px;
+
+        padding: 12px;
+
+        text-align: center;
+
+        background: #ffebee;
+
+        color: #c62828;
+
+        border-radius: 8px;
+
+        font-weight: bold;
+
+        display: none;
+
+    }
+
+
+    /* ==========================
+       RESPONSIVIDADE
+    ========================== */
+
+    @media (max-width: 850px) {
 
         .cadastro-times {
 
-            max-width: 1100px;
+            width: 92%;
 
-            margin: 35px auto;
+            padding: 20px;
 
-            padding: 30px;
-
-            background: white;
-
-            border-radius: 15px;
-
-            box-shadow:
-                0 5px 20px
-                rgba(0, 0, 0, 0.12);
+            box-sizing: border-box;
 
         }
 
-
-        .cadastro-times h1 {
-
-            margin-top: 0;
-
-            color: #1b263b;
-
-        }
-
-
-        .cadastro-times p {
-
-            color: #555;
-
-        }
-
-
-        /* ==========================
-           FORMULÁRIO
-        ========================== */
 
         .form-times {
 
-            display: grid;
-
             grid-template-columns:
-                1fr
-                1fr
-                1fr
-                auto;
-
-            gap: 15px;
-
-            align-items: end;
-
-            margin-top: 25px;
-
-        }
-
-
-        .campo {
-
-            display: flex;
-
-            flex-direction: column;
-
-        }
-
-
-        .campo label {
-
-            margin-bottom: 7px;
-
-            font-weight: bold;
-
-            color: #1b263b;
-
-        }
-
-
-        .campo input,
-
-        .campo select {
-
-            padding: 12px;
-
-            border:
-                1px solid #cbd3dc;
-
-            border-radius: 8px;
-
-            font-size: 16px;
-
-        }
-
-
-        .campo input:focus,
-
-        .campo select:focus {
-
-            outline: none;
-
-            border-color: #fca311;
+                1fr;
 
         }
 
 
         .btn-cadastrar {
 
-            padding:
-                13px
-                22px;
-
-            border: none;
-
-            border-radius: 8px;
-
-            background: #fca311;
-
-            color: #111;
-
-            font-weight: bold;
-
-            font-size: 16px;
-
-            cursor: pointer;
-
-        }
-
-
-        .btn-cadastrar:hover {
-
-            filter: brightness(1.08);
-
-        }
-
-
-        /* ==========================
-           LISTA
-        ========================== */
-
-        .area-lista {
-
-            margin-top: 35px;
-
-        }
-
-
-        .lista-times {
-
-            list-style: none;
-
-            padding: 0;
+            width: 100%;
 
         }
 
 
         .lista-times li {
 
-            display: flex;
+            align-items:
+                flex-start;
 
-            justify-content:
-                space-between;
-
-            align-items: center;
-
-            gap: 20px;
-
-            padding: 15px;
-
-            margin-bottom: 10px;
-
-            background: #f4f6f8;
-
-            border-left:
-                5px solid #fca311;
-
-            border-radius: 8px;
+            flex-direction:
+                column;
 
         }
 
+    }
 
-        .dados-time {
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 4px;
-
-        }
-
-
-        .btn-excluir {
-
-            padding:
-                9px
-                14px;
-
-            border: none;
-
-            border-radius: 7px;
-
-            background: #c62828;
-
-            color: white;
-
-            cursor: pointer;
-
-        }
-
-
-        .mensagem-vazia {
-
-            padding: 20px;
-
-            text-align: center;
-
-            background: #f4f6f8;
-
-            border-radius: 8px;
-
-            color: #666;
-
-        }
-
-
-        /* ==========================
-           RESPONSIVIDADE
-        ========================== */
-
-        @media
-        (max-width: 850px) {
-
-            .cadastro-times {
-
-                width: 92%;
-
-                padding: 20px;
-
-            }
-
-
-            .form-times {
-
-                grid-template-columns:
-                    1fr;
-
-            }
-
-
-            .btn-cadastrar {
-
-                width: 100%;
-
-            }
-
-
-            .lista-times li {
-
-                align-items:
-                    flex-start;
-
-                flex-direction:
-                    column;
-
-            }
-
-        }
-
-    </style>
+</style>
+```
 
 </head>
 
-
 <body>
 
+<!-- ==========================
+     HEADER
+========================== -->
 
 <header>
 
-    <div class="logo">
+```
+<div class="logo">
 
-        InterHub Admin
+    InterHub Admin
 
-    </div>
+</div>
 
 
-    <div>
+<div>
 
-        Área Administrativa
+    Área Administrativa
 
-    </div>
+</div>
+```
 
 </header>
 
-
-
 <!-- ==========================
-     CARDS ANTIGOS
+     CARDS DO ADMIN
 ========================== -->
 
 <div class="admin-container">
 
-    <div class="cards">
+```
+<div class="cards">
 
 
-        <div class="card">
+    <div
+        class="card"
+        onclick="
+            document
+            .getElementById('cadastroJogos')
+            .scrollIntoView({
+                behavior: 'smooth'
+            })
+        "
+    >
 
-            <h2>
-                ⚽ Jogos
-            </h2>
+        <h2>
+            ⚽ Jogos
+        </h2>
 
-            <p>
-                Cadastrar e editar partidas
-            </p>
-
-        </div>
-
-
-
-        <div class="card">
-
-            <h2>
-                🏆 Classificação
-            </h2>
-
-            <p>
-                Atualizar ranking dos times
-            </p>
-
-        </div>
-
-
-
-        <div class="card">
-
-            <h2>
-                📋 Times
-            </h2>
-
-            <p>
-                Gerenciar equipes
-            </p>
-
-        </div>
-
-
-
-        <div class="card">
-
-            <h2>
-                📅 Tabela
-            </h2>
-
-            <p>
-                Organizar confrontos
-            </p>
-
-        </div>
-
-
-
-        <div
-            class="card logout"
-
-            onclick="
-                window.location.href='/logout'
-            "
-        >
-
-            <h2>
-                🚪 Sair
-            </h2>
-
-            <p>
-                Encerrar sessão
-            </p>
-
-        </div>
-
+        <p>
+            Cadastrar e editar partidas
+        </p>
 
     </div>
+
+
+
+    <div
+        class="card"
+        onclick="
+            window.location.href='/admin'
+        "
+    >
+
+        <h2>
+            🏆 Classificação
+        </h2>
+
+        <p>
+            Atualizar ranking dos times
+        </p>
+
+    </div>
+
+
+
+    <div
+        class="card"
+        onclick="
+            document
+            .getElementById('cadastroTimes')
+            .scrollIntoView({
+                behavior: 'smooth'
+            })
+        "
+    >
+
+        <h2>
+            📋 Times
+        </h2>
+
+        <p>
+            Gerenciar equipes
+        </p>
+
+    </div>
+
+
+
+    <div
+        class="card"
+        onclick="
+            window.location.href='/admin'
+        "
+    >
+
+        <h2>
+            📅 Tabela
+        </h2>
+
+        <p>
+            Organizar confrontos
+        </p>
+
+    </div>
+
+
+
+    <div
+        class="card logout"
+        onclick="
+            window.location.href='/logout'
+        "
+    >
+
+        <h2>
+            🚪 Sair
+        </h2>
+
+        <p>
+            Encerrar sessão
+        </p>
+
+    </div>
+
+
+</div>
+```
+
+</div>
+
+<!-- ==========================
+     CADASTRO DE TIMES
+========================== -->
+
+<section
+    class="cadastro-times"
+    id="cadastroTimes"
+>
+
+```
+<h1>
+    📋 Cadastro de Times
+</h1>
+
+
+<p>
+
+    Adicione os times participantes
+    do Interclasse.
+
+</p>
+
+
+
+<!-- FORMULÁRIO -->
+
+<form
+    id="formTime"
+    class="form-times"
+>
+
+
+    <!-- NOME -->
+
+    <div class="campo">
+
+        <label
+            for="nome"
+        >
+
+            Nome do time
+
+        </label>
+
+
+        <input
+            type="text"
+            id="nome"
+            placeholder="Ex.: Fúria FC"
+            required
+        >
+
+    </div>
+
+
+
+    <!-- TURMA -->
+
+    <div class="campo">
+
+        <label
+            for="turma"
+        >
+
+            Turma
+
+        </label>
+
+
+        <input
+            type="text"
+            id="turma"
+            placeholder="Ex.: 3º A"
+            required
+        >
+
+    </div>
+
+
+
+    <!-- MODALIDADE -->
+
+    <div class="campo">
+
+        <label
+            for="modalidade"
+        >
+
+            Modalidade
+
+        </label>
+
+
+        <select
+            id="modalidade"
+            required
+        >
+
+            <option value="">
+
+                Selecione
+
+            </option>
+
+
+            <option value="futsal">
+
+                ⚽ Futsal
+
+            </option>
+
+
+            <option value="volei">
+
+                🏐 Vôlei
+
+            </option>
+
+
+            <option value="basquete">
+
+                🏀 Basquete
+
+            </option>
+
+
+            <option value="videogame">
+
+                🎮 Videogame
+
+            </option>
+
+
+            <option value="tenis">
+
+                🏓 Tênis de Mesa
+
+            </option>
+
+
+        </select>
+
+    </div>
+
+
+
+    <!-- BOTÃO -->
+
+    <button
+        type="submit"
+        class="btn-cadastrar"
+    >
+
+        + Cadastrar
+
+    </button>
+
+
+</form>
+
+
+
+<!-- MENSAGENS -->
+
+<div
+    id="mensagemSucesso"
+    class="mensagem-sucesso"
+>
+
+    ✅ Time cadastrado com sucesso!
+
+</div>
+
+
+<div
+    id="mensagemErro"
+    class="mensagem-erro"
+>
 
 </div>
 
 
 
 <!-- ==========================
-     CADASTRO DE TIMES
+     LISTA
 ========================== -->
 
-<section class="cadastro-times">
+<div class="area-lista">
 
 
-    <h1>
-        📋 Cadastro de Times
-    </h1>
+    <h2>
+
+        Times cadastrados
+
+    </h2>
 
 
-    <p>
-
-        Adicione os times participantes
-        do Interclasse.
-
-    </p>
-
-
-
-    <form
-        id="formTime"
-
-        class="form-times"
+    <ul
+        id="listaTimes"
+        class="lista-times"
     >
 
+    </ul>
 
-        <div class="campo">
 
-            <label
-                for="nome"
-            >
+    <div
+        id="mensagemVazia"
+        class="mensagem-vazia"
+    >
 
-                Nome do time
-
-            </label>
-
-
-            <input
-
-                type="text"
-
-                id="nome"
-
-                placeholder=
-                "Ex.: Fúria FC"
-
-                required
-
-            >
-
-        </div>
-
-
-
-        <div class="campo">
-
-            <label
-                for="turma"
-            >
-
-                Turma
-
-            </label>
-
-
-            <input
-
-                type="text"
-
-                id="turma"
-
-                placeholder=
-                "Ex.: 3º A"
-
-                required
-
-            >
-
-        </div>
-
-
-
-        <div class="campo">
-
-            <label
-                for="modalidade"
-            >
-
-                Modalidade
-
-            </label>
-
-
-            <select
-
-                id="modalidade"
-
-                required
-
-            >
-
-
-                <option value="">
-
-                    Selecione
-
-                </option>
-
-
-                <option value="⚽ Futsal">
-
-                    ⚽ Futsal
-
-                </option>
-
-
-                <option value="🏐 Vôlei">
-
-                    🏐 Vôlei
-
-                </option>
-
-
-                <option value="🏀 Basquete">
-
-                    🏀 Basquete
-
-                </option>
-
-
-                <option value="🎮 Videogame">
-
-                    🎮 Videogame
-
-                </option>
-
-
-                <option
-                    value="🏓 Tênis de Mesa"
-                >
-
-                    🏓 Tênis de Mesa
-
-                </option>
-
-
-            </select>
-
-        </div>
-
-
-
-        <button
-
-            type="submit"
-
-            class="btn-cadastrar"
-
-        >
-
-            + Cadastrar
-
-        </button>
-
-
-    </form>
-
-
-
-    <!-- LISTA -->
-
-    <div class="area-lista">
-
-
-        <h2>
-
-            Times cadastrados
-
-        </h2>
-
-
-        <ul
-
-            id="listaTimes"
-
-            class="lista-times"
-
-        >
-
-        </ul>
-
-
-        <div
-
-            id="mensagemVazia"
-
-            class="mensagem-vazia"
-
-        >
-
-            Nenhum time cadastrado.
-
-        </div>
-
+        Nenhum time cadastrado.
 
     </div>
 
 
+</div>
+```
+
 </section>
 
 
+<!-- ==========================
+     CADASTRO DE JOGOS
+========================== -->
+
+<section class="cadastro-times" id="cadastroJogos">
+
+    <h1>📅 Cadastro de Jogos</h1>
+
+    <p>
+        Cadastre os confrontos do Interclasse.
+    </p>
+
+    <form id="formJogo" class="form-times">
+
+        <div class="campo">
+            <label for="modalidadeJogo">Modalidade</label>
+
+            <select id="modalidadeJogo" required>
+                <option value="">Selecione</option>
+                <option value="futsal">⚽ Futsal</option>
+                <option value="volei">🏐 Vôlei</option>
+                <option value="basquete">🏀 Basquete</option>
+                <option value="videogame">🎮 Videogame</option>
+                <option value="tenis">🏓 Tênis de Mesa</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="time1Jogo">Time 1</label>
+
+            <select id="time1Jogo" required>
+                <option value="">
+                    Selecione primeiro a modalidade
+                </option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="time2Jogo">Time 2</label>
+
+            <select id="time2Jogo" required>
+                <option value="">
+                    Selecione primeiro a modalidade
+                </option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="dataJogo">Data</label>
+
+            <input
+                type="date"
+                id="dataJogo"
+                required
+            >
+        </div>
+
+        <div class="campo">
+            <label for="horarioJogo">Horário</label>
+
+            <input
+                type="time"
+                id="horarioJogo"
+                required
+            >
+        </div>
+
+        <button
+            type="submit"
+            class="btn-cadastrar"
+        >
+            + Cadastrar Jogo
+        </button>
+
+    </form>
+
+    <div
+        id="mensagemJogo"
+        class="mensagem-sucesso"
+    ></div>
+
+    <div class="area-lista">
+
+        <h2>📋 Jogos cadastrados</h2>
+
+        <ul
+            id="listaJogos"
+            class="lista-times"
+        ></ul>
+
+        <div
+            id="mensagemJogosVazia"
+            class="mensagem-vazia"
+        >
+            Nenhum jogo cadastrado.
+        </div>
+
+    </div>
+
+</section>
 
 <script>
 
 
-const formTime =
+/* ==========================
+   ELEMENTOS
+========================== */
 
-document.getElementById(
-    "formTime"
-);
+const formTime =
+    document.getElementById(
+        "formTime"
+    );
 
 
 const listaTimes =
-
-document.getElementById(
-    "listaTimes"
-);
+    document.getElementById(
+        "listaTimes"
+    );
 
 
 const mensagemVazia =
-
-document.getElementById(
-    "mensagemVazia"
-);
-
-
-
-let times = [];
-
-
-
-function atualizarLista() {
-
-
-    listaTimes.innerHTML = "";
-
-
-    if (
-        times.length === 0
-    ) {
-
-
-        mensagemVazia.style.display =
-        "block";
-
-
-        return;
-
-    }
-
-
-
-    mensagemVazia.style.display =
-    "none";
-
-
-
-    times.forEach(
-
-        function(
-            time,
-            indice
-        ) {
-
-
-            const item =
-
-            document.createElement(
-                "li"
-            );
-
-
-
-            item.innerHTML = `
-
-                <div
-                    class="dados-time"
-                >
-
-                    <strong>
-
-                        ${time.nome}
-
-                    </strong>
-
-
-                    <span>
-
-                        Turma:
-
-                        ${time.turma}
-
-                    </span>
-
-
-                    <span>
-
-                        ${time.modalidade}
-
-                    </span>
-
-
-                </div>
-
-
-                <button
-
-                    class="btn-excluir"
-
-                    onclick="
-                        excluirTime(
-                            ${indice}
-                        )
-                    "
-
-                >
-
-                    Excluir
-
-                </button>
-
-            `;
-
-
-
-            listaTimes.appendChild(
-                item
-            );
-
-
-        }
-
+    document.getElementById(
+        "mensagemVazia"
     );
 
+
+const mensagemSucesso =
+    document.getElementById(
+        "mensagemSucesso"
+    );
+
+
+const mensagemErro =
+    document.getElementById(
+        "mensagemErro"
+    );
+
+
+
+/* ==========================
+   ESCONDER MENSAGENS
+========================== */
+
+function limparMensagens() {
+
+    mensagemSucesso.style.display =
+        "none";
+
+    mensagemErro.style.display =
+        "none";
 
 }
 
 
 
+/* ==========================
+   CADASTRAR TIME
+========================== */
+
 formTime.addEventListener(
-
     "submit",
-
-    function(evento) {
-
+    async function(evento) {
 
         evento.preventDefault();
 
 
+        limparMensagens();
+
 
         const nome =
-
-        document
-        .getElementById(
-            "nome"
-        )
-        .value
-        .trim();
-
+            document
+                .getElementById("nome")
+                .value
+                .trim();
 
 
         const turma =
-
-        document
-        .getElementById(
-            "turma"
-        )
-        .value
-        .trim();
-
+            document
+                .getElementById("turma")
+                .value
+                .trim();
 
 
         const modalidade =
-
-        document
-        .getElementById(
-            "modalidade"
-        )
-        .value;
+            document
+                .getElementById("modalidade")
+                .value;
 
 
 
-        times.push({
-
-            nome:
-
-            nome,
+        try {
 
 
-            turma:
+            const resposta =
+                await fetch(
+                    "/api/times",
+                    {
 
-            turma,
+                        method: "POST",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                nome:
+                                    nome,
+
+                                turma:
+                                    turma,
+
+                                modalidade:
+                                    modalidade
+
+                            })
+
+                    }
+                );
 
 
-            modalidade:
 
-            modalidade
-
-        });
+            const resultado =
+                await resposta.json();
 
 
 
-        formTime.reset();
+            if (!resposta.ok) {
+
+                throw new Error(
+
+                    resultado.erro ||
+                    "Erro ao cadastrar time."
+
+                );
+
+            }
 
 
 
-        atualizarLista();
+            /* SUCESSO */
 
+            mensagemSucesso.style.display =
+                "block";
+
+
+            formTime.reset();
+
+
+            /* Atualiza a lista */
+
+            carregarTimes();
+
+
+
+        }
+
+        catch (erro) {
+
+            console.error(
+                "Erro:",
+                erro
+            );
+
+
+            mensagemErro.textContent =
+                "❌ " + erro.message;
+
+
+            mensagemErro.style.display =
+                "block";
+
+        }
 
     }
-
 );
 
 
 
-function excluirTime(
-    indice
-) {
+/* ==========================
+   CARREGAR TIMES DO MYSQL
+========================== */
+
+async function carregarTimes() {
+
+    try {
 
 
-    times.splice(
-        indice,
-        1
-    );
+        const resposta =
+            await fetch(
+                "/api/times"
+            );
 
 
-    atualizarLista();
 
+        if (!resposta.ok) {
+
+            throw new Error(
+                "Não foi possível carregar os times."
+            );
+
+        }
+
+
+
+        const times =
+            await resposta.json();
+
+
+
+        listaTimes.innerHTML =
+            "";
+
+
+
+        if (
+            times.length === 0
+        ) {
+
+            mensagemVazia.style.display =
+                "block";
+
+            return;
+
+        }
+
+
+
+        mensagemVazia.style.display =
+            "none";
+
+
+
+        times.forEach(
+            function(time) {
+
+
+                const item =
+                    document.createElement(
+                        "li"
+                    );
+
+
+
+                let nomeModalidade =
+                    time.modalidade;
+
+
+
+                /* Nome bonito da modalidade */
+
+                if (
+                    time.modalidade ===
+                    "futsal"
+                ) {
+
+                    nomeModalidade =
+                        "⚽ Futsal";
+
+                }
+
+                else if (
+                    time.modalidade ===
+                    "volei"
+                ) {
+
+                    nomeModalidade =
+                        "🏐 Vôlei";
+
+                }
+
+                else if (
+                    time.modalidade ===
+                    "basquete"
+                ) {
+
+                    nomeModalidade =
+                        "🏀 Basquete";
+
+                }
+
+                else if (
+                    time.modalidade ===
+                    "videogame"
+                ) {
+
+                    nomeModalidade =
+                        "🎮 Videogame";
+
+                }
+
+                else if (
+                    time.modalidade ===
+                    "tenis"
+                ) {
+
+                    nomeModalidade =
+                        "🏓 Tênis de Mesa";
+
+                }
+
+
+
+                item.innerHTML = `
+
+                    <div
+                        class="dados-time"
+                    >
+
+                        <strong>
+
+                            ${time.nome}
+
+                        </strong>
+
+
+                        <span>
+
+                            Turma:
+                            ${time.turma}
+
+                        </span>
+
+
+                        <span>
+
+                            ${nomeModalidade}
+
+                        </span>
+
+                    </div>
+
+                `;
+
+
+
+                listaTimes.appendChild(
+                    item
+                );
+
+
+            }
+        );
+
+
+    }
+
+    catch (erro) {
+
+        console.error(
+            "Erro ao carregar times:",
+            erro
+        );
+
+
+        listaTimes.innerHTML = `
+
+            <li>
+
+                ❌ Erro ao carregar
+                os times.
+
+            </li>
+
+        `;
+
+    }
 
 }
 
 
 
-atualizarLista();
+
+/* ==========================
+   CADASTRO DE JOGOS
+========================== */
+
+const formJogo =
+    document.getElementById("formJogo");
+
+const modalidadeJogo =
+    document.getElementById("modalidadeJogo");
+
+const time1Jogo =
+    document.getElementById("time1Jogo");
+
+const time2Jogo =
+    document.getElementById("time2Jogo");
+
+const mensagemJogo =
+    document.getElementById("mensagemJogo");
+
+const listaJogos =
+    document.getElementById("listaJogos");
+
+const mensagemJogosVazia =
+    document.getElementById("mensagemJogosVazia");
+
+
+/* ==========================
+   CARREGAR TIMES DA MODALIDADE
+========================== */
+
+modalidadeJogo.addEventListener(
+    "change",
+    async function() {
+
+        const modalidade =
+            modalidadeJogo.value;
+
+        time1Jogo.innerHTML =
+            '<option value="">Selecione</option>';
+
+        time2Jogo.innerHTML =
+            '<option value="">Selecione</option>';
+
+        if (!modalidade) {
+            return;
+        }
+
+        try {
+
+            const resposta =
+                await fetch(
+                    "/api/times?modalidade=" +
+                    encodeURIComponent(modalidade)
+                );
+
+            const times =
+                await resposta.json();
+
+            if (!resposta.ok) {
+                throw new Error(
+                    times.erro ||
+                    "Erro ao carregar os times."
+                );
+            }
+
+            times.forEach(function(time) {
+
+                const opcao1 =
+                    document.createElement("option");
+
+                opcao1.value = time.id;
+
+                opcao1.textContent =
+                    time.nome +
+                    " - " +
+                    time.turma;
+
+                const opcao2 =
+                    document.createElement("option");
+
+                opcao2.value = time.id;
+
+                opcao2.textContent =
+                    time.nome +
+                    " - " +
+                    time.turma;
+
+                time1Jogo.appendChild(opcao1);
+                time2Jogo.appendChild(opcao2);
+
+            });
+
+        } catch (erro) {
+
+            console.error(
+                "Erro ao carregar times:",
+                erro
+            );
+
+        }
+
+    }
+);
+
+
+/* ==========================
+   CADASTRAR JOGO
+========================== */
+
+formJogo.addEventListener(
+    "submit",
+    async function(evento) {
+
+        evento.preventDefault();
+
+        const modalidade =
+            modalidadeJogo.value;
+
+        const time1_id =
+            time1Jogo.value;
+
+        const time2_id =
+            time2Jogo.value;
+
+        const data_jogo =
+            document
+                .getElementById("dataJogo")
+                .value;
+
+        const horario =
+            document
+                .getElementById("horarioJogo")
+                .value;
+
+        if (time1_id === time2_id) {
+
+            alert(
+                "❌ Escolha dois times diferentes."
+            );
+
+            return;
+
+        }
+
+        mensagemJogo.style.display = "none";
+
+        try {
+
+            const resposta =
+                await fetch(
+                    "/api/jogos",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            time1_id,
+                            time2_id,
+                            modalidade,
+                            data_jogo,
+                            horario
+                        })
+                    }
+                );
+
+            const resultado =
+                await resposta.json();
+
+            if (!resposta.ok) {
+
+                throw new Error(
+                    resultado.erro ||
+                    "Erro ao cadastrar jogo."
+                );
+
+            }
+
+            mensagemJogo.textContent =
+                "✅ Jogo cadastrado com sucesso!";
+
+            mensagemJogo.style.display = "block";
+
+            formJogo.reset();
+
+            time1Jogo.innerHTML =
+                '<option value="">Selecione primeiro a modalidade</option>';
+
+            time2Jogo.innerHTML =
+                '<option value="">Selecione primeiro a modalidade</option>';
+
+            carregarJogos();
+
+        } catch (erro) {
+
+            console.error(
+                "Erro ao cadastrar jogo:",
+                erro
+            );
+
+            alert("❌ " + erro.message);
+
+        }
+
+    }
+);
+
+
+/* ==========================
+   LISTAR JOGOS
+========================== */
+
+async function carregarJogos() {
+
+    try {
+
+        const resposta =
+            await fetch("/api/jogos");
+
+        const jogos =
+            await resposta.json();
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                jogos.erro ||
+                "Erro ao carregar jogos."
+            );
+
+        }
+
+        listaJogos.innerHTML = "";
+
+        if (jogos.length === 0) {
+
+            mensagemJogosVazia.style.display =
+                "block";
+
+            return;
+
+        }
+
+        mensagemJogosVazia.style.display =
+            "none";
+
+        jogos.forEach(function(jogo) {
+
+            const item =
+                document.createElement("li");
+
+            let modalidadeNome =
+                jogo.modalidade;
+
+            if (jogo.modalidade === "futsal") {
+                modalidadeNome = "⚽ Futsal";
+            } else if (jogo.modalidade === "volei") {
+                modalidadeNome = "🏐 Vôlei";
+            } else if (jogo.modalidade === "basquete") {
+                modalidadeNome = "🏀 Basquete";
+            } else if (jogo.modalidade === "videogame") {
+                modalidadeNome = "🎮 Videogame";
+            } else if (jogo.modalidade === "tenis") {
+                modalidadeNome = "🏓 Tênis de Mesa";
+            }
+
+            item.innerHTML = `
+                <div class="dados-time">
+                    <strong>
+                        ${jogo.time1}
+                        ×
+                        ${jogo.time2}
+                    </strong>
+
+                    <span>
+                        ${modalidadeNome}
+                    </span>
+
+                    <span>
+                        ${jogo.data_jogo}
+                        -
+                        ${jogo.horario}
+                    </span>
+                </div>
+            `;
+
+            listaJogos.appendChild(item);
+
+        });
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar jogos:",
+            erro
+        );
+
+        listaJogos.innerHTML = `
+            <li>
+                ❌ Erro ao carregar os jogos.
+            </li>
+        `;
+
+        mensagemJogosVazia.style.display =
+            "none";
+
+    }
+
+}
+
+carregarJogos();
+
+
+/* ==========================
+   INICIAR
+========================== */
+
+carregarTimes();
 
 
 </script>
-
 
 </body>
 

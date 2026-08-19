@@ -61,10 +61,16 @@ function verificarAdmin(req, res, next) {
         return next();
     }
 
-    // Se não estiver logado, volta para a tela de login
+    // Se for uma API, retorna JSON
+    if (req.path.startsWith("/api/")) {
+        return res.status(401).json({
+            erro: "Sessão expirada. Faça login novamente."
+        });
+    }
+
+    // Se for uma página normal, volta para o login
     return res.redirect("/loginadm.html");
 }
-
 /* ==========================
    PÁGINA INICIAL
 ========================== */
@@ -131,6 +137,17 @@ app.get("/admin", verificarAdmin, (req, res) => {
     console.log("Abrindo painel em:", caminhoAdmin);
 
     return res.sendFile(caminhoAdmin);
+
+});
+app.get("/admin/times", verificarAdmin, (req, res) => {
+
+    res.sendFile(
+        path.join(
+            __dirname,
+            "privado",
+            "admin-times.html"
+        )
+    );
 
 });
 
@@ -201,7 +218,486 @@ app.get("/api/classificacao", async (req, res) => {
     }
 
 });
+/* ==========================
+   TIMES
+========================== */
 
+// CADASTRAR TIME
+app.post("/api/times", verificarAdmin, async (req, res) => {
+
+    try {
+
+        const { nome, turma, modalidade } = req.body;
+
+        // Verifica se os campos foram preenchidos
+        if (!nome || !turma || !modalidade) {
+
+            return res.status(400).json({
+                erro: "Preencha todos os campos."
+            });
+
+        }
+
+
+        // ==========================
+        // CADASTRA O TIME
+        // ==========================
+
+        const [resultado] = await db.query(
+            `
+            INSERT INTO times
+            (nome, turma, modalidade)
+            VALUES (?, ?, ?)
+            `,
+            [
+                nome,
+                turma,
+                modalidade
+            ]
+        );
+
+
+        const timeId = resultado.insertId;
+
+
+        // ==========================
+        // CRIA CLASSIFICAÇÃO
+        // ==========================
+
+        await db.query(
+            `
+            INSERT INTO classificacao
+            (
+                time_id,
+                pontos,
+                vitorias,
+                empates,
+                derrotas
+            )
+            VALUES (?, 0, 0, 0, 0)
+            `,
+            [
+                timeId
+            ]
+        );
+
+
+        console.log(
+            "Time cadastrado:",
+            nome,
+            turma,
+            modalidade
+        );
+
+
+        console.log(
+            "Classificação criada para o time:",
+            timeId
+        );
+
+
+        return res.status(201).json({
+
+            mensagem:
+                "Time cadastrado com sucesso!",
+
+            id: timeId
+
+        });
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao cadastrar time:",
+            erro
+        );
+
+
+        return res.status(500).json({
+
+            erro:
+                "Erro ao cadastrar time."
+
+        });
+
+    }
+
+});
+
+
+// LISTAR TIMES
+app.get("/api/times", async (req, res) => {
+
+    try {
+
+        const { modalidade } = req.query;
+
+        let resultados;
+
+        if (modalidade) {
+
+            [resultados] = await db.query(
+                `
+                SELECT
+                    id,
+                    nome,
+                    turma,
+                    modalidade
+                FROM times
+                WHERE modalidade = ?
+                ORDER BY nome
+                `,
+                [modalidade]
+            );
+
+        } else {
+
+            [resultados] = await db.query(
+                `
+                SELECT
+                    id,
+                    nome,
+                    turma,
+                    modalidade
+                FROM times
+                ORDER BY nome
+                `
+            );
+
+        }
+
+        return res.json(resultados);
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao buscar times:",
+            erro
+        );
+
+        return res.status(500).json({
+
+            erro: "Erro ao carregar times."
+
+        });
+
+    }
+
+});
+/* ==========================
+   RESULTADOS DOS JOGOS
+========================== */
+
+
+/* ==========================
+   CADASTRAR JOGO
+========================== */
+
+app.post("/api/jogos", verificarAdmin, async (req, res) => {
+
+    try {
+
+        const {
+            time1_id,
+            time2_id,
+            modalidade,
+            data_jogo,
+            horario
+        } = req.body;
+
+        if (
+            !time1_id ||
+            !time2_id ||
+            !modalidade ||
+            !data_jogo ||
+            !horario
+        ) {
+
+            return res.status(400).json({
+                erro: "Preencha todos os campos."
+            });
+
+        }
+
+        if (time1_id === time2_id) {
+
+            return res.status(400).json({
+                erro: "Os times precisam ser diferentes."
+            });
+
+        }
+
+        await db.query(
+            `
+            INSERT INTO jogos
+            (
+                time1_id,
+                time2_id,
+                modalidade,
+                data_jogo,
+                horario,
+                gols_time1,
+                gols_time2
+            )
+            VALUES (?, ?, ?, ?, ?, 0, 0)
+            `,
+            [
+                time1_id,
+                time2_id,
+                modalidade,
+                data_jogo,
+                horario
+            ]
+        );
+
+        console.log(
+            "Jogo cadastrado:",
+            time1_id,
+            time2_id,
+            modalidade
+        );
+
+        return res.status(201).json({
+            mensagem: "Jogo cadastrado com sucesso!"
+        });
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao cadastrar jogo:",
+            erro
+        );
+
+        return res.status(500).json({
+            erro: "Erro ao cadastrar jogo."
+        });
+
+    }
+
+});
+
+
+/* ==========================
+   LISTAR JOGOS
+========================== */
+
+/* ==========================
+   LISTAR JOGOS
+========================== */
+
+app.get("/api/jogos", async (req, res) => {
+
+    try {
+
+        const [jogos] = await db.query(`
+            SELECT
+                jogos.id,
+                jogos.modalidade,
+                jogos.data_jogo,
+                jogos.horario,
+                jogos.gols_time1,
+                jogos.gols_time2,
+
+                t1.nome AS time1,
+                t2.nome AS time2
+
+            FROM jogos
+
+            INNER JOIN times t1
+                ON jogos.time1_id = t1.id
+
+            INNER JOIN times t2
+                ON jogos.time2_id = t2.id
+
+            ORDER BY
+                jogos.data_jogo ASC,
+                jogos.horario ASC
+        `);
+
+        return res.status(200).json(jogos);
+
+    } catch (erro) {
+
+        console.error("Erro ao buscar jogos:", erro);
+
+        return res.status(500).json({
+            erro: "Erro ao carregar jogos."
+        });
+
+    }
+
+});
+app.post("/api/jogos/resultado", verificarAdmin, async (req, res) => {
+    try {
+
+        const {
+            jogo_id,
+            gols_time1,
+            gols_time2
+        } = req.body;
+
+
+        // Verifica os dados
+        if (
+            !jogo_id ||
+            gols_time1 === undefined ||
+            gols_time2 === undefined
+        ) {
+
+            return res.status(400).json({
+                erro: "Preencha todos os campos."
+            });
+
+        }
+
+
+        // Busca o jogo
+        const [jogos] = await db.query(
+            `
+            SELECT
+                time1_id,
+                time2_id,
+                gols_time1,
+                gols_time2
+            FROM jogos
+            WHERE id = ?
+            `,
+            [jogo_id]
+        );
+
+
+        if (jogos.length === 0) {
+
+            return res.status(404).json({
+                erro: "Jogo não encontrado."
+            });
+
+        }
+
+
+        const jogo = jogos[0];
+
+
+        // Atualiza o resultado do jogo
+        await db.query(
+            `
+            UPDATE jogos
+            SET
+                gols_time1 = ?,
+                gols_time2 = ?
+            WHERE id = ?
+            `,
+            [
+                gols_time1,
+                gols_time2,
+                jogo_id
+            ]
+        );
+
+
+        // ==========================
+        // ATUALIZA CLASSIFICAÇÃO
+        // ==========================
+
+        if (Number(gols_time1) > Number(gols_time2)) {
+
+            // Time 1 venceu
+            await db.query(
+                `
+                UPDATE classificacao
+                SET
+                    pontos = pontos + 3,
+                    vitorias = vitorias + 1
+                WHERE time_id = ?
+                `,
+                [jogo.time1_id]
+            );
+
+
+            // Time 2 perdeu
+            await db.query(
+                `
+                UPDATE classificacao
+                SET
+                    derrotas = derrotas + 1
+                WHERE time_id = ?
+                `,
+                [jogo.time2_id]
+            );
+
+        }
+
+
+        else if (Number(gols_time2) > Number(gols_time1)) {
+
+            // Time 2 venceu
+            await db.query(
+                `
+                UPDATE classificacao
+                SET
+                    pontos = pontos + 3,
+                    vitorias = vitorias + 1
+                WHERE time_id = ?
+                `,
+                [jogo.time2_id]
+            );
+
+
+            // Time 1 perdeu
+            await db.query(
+                `
+                UPDATE classificacao
+                SET
+                    derrotas = derrotas + 1
+                WHERE time_id = ?
+                `,
+                [jogo.time1_id]
+            );
+
+        }
+
+
+        else {
+
+            // Empate
+            await db.query(
+                `
+                UPDATE classificacao
+                SET
+                    pontos = pontos + 1,
+                    empates = empates + 1
+                WHERE time_id IN (?, ?)
+                `,
+                [
+                    jogo.time1_id,
+                    jogo.time2_id
+                ]
+            );
+
+        }
+
+
+        return res.json({
+            mensagem: "Resultado registrado e classificação atualizada!"
+        });
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao registrar resultado:",
+            erro
+        );
+
+
+        return res.status(500).json({
+            erro: "Erro ao registrar resultado."
+        });
+
+    }
+
+});
 /* ==========================
    SERVIDOR
 ========================== */

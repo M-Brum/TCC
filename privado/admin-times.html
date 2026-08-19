@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Gerenciar Times - InterHub</title>
+
+<link rel="stylesheet" href="/style.css">
+
+<style>
+
+    .admin-form {
+        max-width: 600px;
+        margin: 0 auto 40px;
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,.1);
+    }
+
+    .admin-form h2 {
+        color: #0d1b2a;
+        margin-top: 0;
+    }
+
+    .campo {
+        margin-bottom: 20px;
+    }
+
+    .campo label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #0d1b2a;
+    }
+
+    .campo input,
+    .campo select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+    .btn-cadastrar {
+        width: 100%;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    #mensagem {
+        text-align: center;
+        margin-top: 15px;
+        font-weight: bold;
+    }
+
+    .times-cadastrados {
+        max-width: 1000px;
+        margin: auto;
+    }
+
+    .times-cadastrados h2 {
+        text-align: center;
+        color: #0d1b2a;
+    }
+
+    .lista-times {
+        display: grid;
+        grid-template-columns: repeat(
+            auto-fit,
+            minmax(250px, 1fr)
+        );
+        gap: 20px;
+    }
+
+    .time-admin-card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,.1);
+    }
+
+    .time-admin-card h3 {
+        margin-top: 0;
+        color: #0d1b2a;
+    }
+
+    .time-admin-card p {
+        margin: 5px 0;
+    }
+
+    .voltar-admin {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 12px 25px;
+        background: #fca311;
+        color: #111;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<header>
+
+```
+<div class="logo">
+    InterHub Admin
+</div>
+
+<div>
+    Gerenciar Times
+</div>
+```
+
+</header>
+
+<section class="hero">
+
+```
+<h2>👥 TIMES</h2>
+
+<p>Cadastro e gerenciamento de equipes</p>
+```
+
+</section>
+
+<section class="container">
+
+```
+<div class="admin-form">
+
+    <h2>➕ Cadastrar novo time</h2>
+
+
+    <form id="formTime">
+
+
+        <div class="campo">
+
+            <label for="nome">
+                Nome do time
+            </label>
+
+            <input
+                type="text"
+                id="nome"
+                placeholder="Ex: 3ºA"
+                required
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="turma">
+                Turma
+            </label>
+
+            <input
+                type="text"
+                id="turma"
+                placeholder="Ex: 3ºA"
+                required
+            >
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="modalidade">
+                Modalidade
+            </label>
+
+            <select
+                id="modalidade"
+                required
+            >
+
+                <option value="">
+                    Selecione uma modalidade
+                </option>
+
+                <option value="futsal">
+                    ⚽ Futsal
+                </option>
+
+                <option value="volei">
+                    🏐 Vôlei
+                </option>
+
+                <option value="basquete">
+                    🏀 Basquete
+                </option>
+
+                <option value="videogame">
+                    🎮 Videogame
+                </option>
+
+                <option value="tenis">
+                    🏓 Tênis de Mesa
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="btn btn-cadastrar"
+        >
+            Cadastrar Time
+        </button>
+
+
+    </form>
+
+
+    <div id="mensagem"></div>
+
+
+</div>
+
+
+<div class="times-cadastrados">
+
+    <h2>📋 Times cadastrados</h2>
+
+    <div
+        id="listaTimes"
+        class="lista-times"
+    >
+
+        Carregando...
+
+    </div>
+
+</div>
+
+
+<a
+    href="/admin"
+    class="voltar-admin"
+>
+    ⬅ Voltar ao painel
+</a>
+```
+
+</section>
+
+<footer>
+
+```
+InterHub © 2026
+```
+
+</footer>
+
+<script>
+
+
+const form =
+    document.getElementById("formTime");
+
+const mensagem =
+    document.getElementById("mensagem");
+
+const lista =
+    document.getElementById("listaTimes");
+
+
+/* ==========================
+   CADASTRAR TIME
+========================== */
+
+form.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        const nome =
+            document.getElementById("nome").value.trim();
+
+        const turma =
+            document.getElementById("turma").value.trim();
+
+        const modalidade =
+            document.getElementById("modalidade").value;
+
+
+        try {
+
+            const resposta =
+                await fetch("/api/times", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        nome,
+                        turma,
+                        modalidade
+
+                    })
+
+                });
+
+
+            const resultado =
+                await resposta.json();
+
+
+            if (!resposta.ok) {
+
+                throw new Error(
+                    resultado.erro ||
+                    "Erro ao cadastrar."
+                );
+
+            }
+
+
+            mensagem.textContent =
+                "✅ Time cadastrado com sucesso!";
+
+            mensagem.style.color =
+                "green";
+
+
+            form.reset();
+
+
+            carregarTimes();
+
+        }
+
+        catch (erro) {
+
+            console.error(erro);
+
+            mensagem.textContent =
+                "❌ " + erro.message;
+
+            mensagem.style.color =
+                "red";
+
+        }
+
+    }
+);
+
+
+/* ==========================
+   LISTAR TIMES
+========================== */
+
+async function carregarTimes() {
+
+    try {
+
+        const resposta =
+            await fetch("/api/times");
+
+
+        const times =
+            await resposta.json();
+
+
+        lista.innerHTML = "";
+
+
+        if (times.length === 0) {
+
+            lista.innerHTML =
+                "<p>Nenhum time cadastrado ainda.</p>";
+
+            return;
+
+        }
+
+
+        times.forEach(function(time) {
+
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "time-admin-card";
+
+
+            card.innerHTML = `
+
+                <h3>
+                    ${time.nome}
+                </h3>
+
+                <p>
+                    <strong>Turma:</strong>
+                    ${time.turma}
+                </p>
+
+                <p>
+                    <strong>Modalidade:</strong>
+                    ${time.modalidade}
+                </p>
+
+            `;
+
+
+            lista.appendChild(card);
+
+        });
+
+    }
+
+    catch (erro) {
+
+        console.error(erro);
+
+        lista.innerHTML =
+            "❌ Erro ao carregar os times.";
+
+    }
+
+}
+
+
+carregarTimes();
+
+</script>
+
+</body>
+
+</html>

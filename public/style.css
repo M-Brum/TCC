@@ -17,7 +17,7 @@ header{
 header h1{ 
    
         margin:0; 
-        color:#fca311; 
+        color:#e38e06; 
         text-shadow: 
             0 0 2px rgba(252, 163, 17, 0.4),
             0 0 5px rgba(252, 163, 17, 0.2);
@@ -33,7 +33,7 @@ header h1{
 } 
  
 .hero h2{ 
-    color:#fca311; 
+    color:#fba421; 
     font-size:42px; 
     margin-bottom:10px; 
     text-shadow: 

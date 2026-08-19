@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Times - Futsal | InterHub</title>
+
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/modalidades.css">
+
+<style>
+
+    .times-lista {
+        display: grid;
+        grid-template-columns: repeat(
+            auto-fit,
+            minmax(250px, 1fr)
+        );
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .time-card {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,.1);
+        text-align: center;
+        transition: .3s;
+    }
+
+    .time-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .time-card h3 {
+        margin-top: 0;
+        color: #0d1b2a;
+        font-size: 24px;
+    }
+
+    .time-card p {
+        color: #555;
+    }
+
+    .mensagem {
+        text-align: center;
+        margin-top: 30px;
+        padding: 20px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,.1);
+    }
+
+    .voltar {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 12px 25px;
+        background: #fca311;
+        color: #111;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<header>
+
+```
+<h1>Interclasse 2026</h1>
+
+<span>
+    Escola Exército Brasileiro
+</span>
+```
+
+</header>
+
+<section class="hero">
+
+```
+<h2>⚽ FUTSAL</h2>
+
+<p>Times cadastrados</p>
+```
+
+</section>
+
+<section class="container">
+
+```
+<div
+    id="mensagem"
+    class="mensagem"
+>
+    Carregando times...
+</div>
+
+
+<div
+    id="listaTimes"
+    class="times-lista"
+>
+</div>
+
+
+<a
+    href="/times.html"
+    class="voltar"
+>
+    ⬅ Voltar para modalidades
+</a>
+```
+
+</section>
+
+<footer>
+
+```
+<p>InterHub © 2026</p>
+
+<p>
+    Desenvolvido pela Equipe do 3°C
+</p>
+```
+
+</footer>
+
+<script>
+
+async function carregarTimes() {
+
+    const lista =
+        document.getElementById("listaTimes");
+
+    const mensagem =
+        document.getElementById("mensagem");
+
+
+    try {
+
+        const resposta =
+            await fetch(
+                "/api/times?modalidade=futsal"
+            );
+
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                "Erro ao buscar os times."
+            );
+
+        }
+
+
+        const times =
+            await resposta.json();
+
+
+        lista.innerHTML = "";
+
+
+        if (times.length === 0) {
+
+            mensagem.style.display = "block";
+
+            mensagem.innerHTML =
+                "🏆 Nenhum time de Futsal cadastrado ainda.";
+
+            return;
+
+        }
+
+
+        mensagem.style.display = "none";
+
+
+        times.forEach(function(time) {
+
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "time-card";
+
+
+            card.innerHTML = `
+
+                <h3>
+                    ⚽ ${time.nome}
+                </h3>
+
+                <p>
+                    Turma: ${time.turma}
+                </p>
+
+            `;
+
+
+            lista.appendChild(card);
+
+        });
+
+    }
+
+    catch (erro) {
+
+        console.error(erro);
+
+        mensagem.style.display = "block";
+
+        mensagem.innerHTML =
+            "❌ Não foi possível carregar os times.";
+
+    }
+
+}
+
+
+carregarTimes();
+
+</script>
+
+</body>
+
+</html>
