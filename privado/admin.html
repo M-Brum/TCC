@@ -1,10 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
 
 <meta charset="UTF-8">
 
-<title>Painel Administrativo</title>
+<title>Painel Administrativo - InterHub</title>
 
 <link rel="stylesheet" href="/admin.css">
 
@@ -24,39 +25,276 @@
 
 </header>
 
+
 <div class="admin-container">
 
     <div class="cards">
 
-        <div class="card">
-            <h2>⚽ Jogos</h2>
-            <p>Cadastrar e editar partidas</p>
-        </div>
+        <!-- =========================
+             CADASTRO DE TIMES
+        ========================== -->
 
         <div class="card">
-            <h2>🏆 Classificação</h2>
-            <p>Atualizar ranking dos times</p>
-        </div>
 
-        <div class="card">
             <h2>📋 Times</h2>
-            <p>Gerenciar equipes</p>
+
+            <p>Cadastrar novas equipes</p>
+
+            <form id="formTime">
+
+                <input
+                    type="text"
+                    id="nomeTime"
+                    placeholder="Nome do time"
+                    required
+                >
+
+                <input
+                    type="text"
+                    id="turmaTime"
+                    placeholder="Turma"
+                    required
+                >
+
+                <select id="modalidadeTime" required>
+
+                    <option value="">
+                        Selecione a modalidade
+                    </option>
+
+                    <option value="Futsal">
+                        ⚽ Futsal
+                    </option>
+
+                    <option value="Vôlei">
+                        🏐 Vôlei
+                    </option>
+
+                    <option value="Basquete">
+                        🏀 Basquete
+                    </option>
+
+                    <option value="Videogame">
+                        🎮 Videogame
+                    </option>
+
+                    <option value="Tênis de Mesa">
+                        🏓 Tênis de Mesa
+                    </option>
+
+                </select>
+
+                <button type="submit">
+                    Cadastrar Time
+                </button>
+
+            </form>
+
+            <p id="mensagemTime"></p>
+
         </div>
 
+
+        <!-- =========================
+             CADASTRO DE JOGOS
+        ========================== -->
+
         <div class="card">
+
+            <h2>⚽ Jogos</h2>
+
+            <p>Cadastrar uma nova partida</p>
+
+            <form id="formJogo">
+
+                <select id="modalidadeJogo" required>
+
+                    <option value="">
+                        Selecione a modalidade
+                    </option>
+
+                    <option value="Futsal">
+                        ⚽ Futsal
+                    </option>
+
+                    <option value="Vôlei">
+                        🏐 Vôlei
+                    </option>
+
+                    <option value="Basquete">
+                        🏀 Basquete
+                    </option>
+
+                    <option value="Videogame">
+                        🎮 Videogame
+                    </option>
+
+                    <option value="Tênis de Mesa">
+                        🏓 Tênis de Mesa
+                    </option>
+
+                </select>
+
+
+                <select id="time1Jogo" required>
+
+                    <option value="">
+                        Selecione o primeiro time
+                    </option>
+
+                </select>
+
+
+                <select id="time2Jogo" required>
+
+                    <option value="">
+                        Selecione o segundo time
+                    </option>
+
+                </select>
+
+
+                <label>
+                    Data do jogo
+                </label>
+
+                <input
+                    type="date"
+                    id="dataJogo"
+                    required
+                >
+
+
+                <label>
+                    Horário
+                </label>
+
+                <input
+                    type="time"
+                    id="horarioJogo"
+                    required
+                >
+
+
+                <button type="submit">
+                    Cadastrar Jogo
+                </button>
+
+            </form>
+
+            <p id="mensagemJogo"></p>
+
+        </div>
+
+
+        <!-- =========================
+             RESULTADOS
+        ========================== -->
+
+        <div class="card">
+
+            <h2>🥅 Resultados</h2>
+
+            <p>Atualizar o resultado de uma partida</p>
+
+            <form id="formResultado">
+
+                <select id="jogoResultado" required>
+
+                    <option value="">
+                        Selecione um jogo
+                    </option>
+
+                </select>
+
+
+                <input
+                    type="number"
+                    id="golsTime1"
+                    min="0"
+                    placeholder="Gols do primeiro time"
+                    required
+                >
+
+
+                <input
+                    type="number"
+                    id="golsTime2"
+                    min="0"
+                    placeholder="Gols do segundo time"
+                    required
+                >
+
+
+                <button type="submit">
+                    Salvar Resultado
+                </button>
+
+            </form>
+
+            <p id="mensagemResultado"></p>
+
+        </div>
+
+
+        <!-- =========================
+             CLASSIFICAÇÃO
+        ========================== -->
+
+        <div class="card">
+
+            <h2>🏆 Classificação</h2>
+
+            <p>
+                A classificação é atualizada automaticamente
+                quando um resultado é lançado.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             TABELA
+        ========================== -->
+
+        <div class="card">
+
             <h2>📅 Tabela</h2>
-            <p>Organizar confrontos</p>
+
+            <p>
+                Os jogos cadastrados aparecem automaticamente
+                nas páginas de tabela.
+            </p>
+
         </div>
+
+
+        <!-- =========================
+             ESTATÍSTICAS
+        ========================== -->
 
         <div class="card">
+
             <h2>📊 Estatísticas</h2>
-            <p>Ver dados do campeonato</p>
+
+            <p>
+                Área reservada para estatísticas do campeonato.
+            </p>
+
         </div>
 
-        <div class="card logout"
-             onclick="window.location.href='/logout'">
+
+        <!-- =========================
+             SAIR
+        ========================== -->
+
+        <div
+            class="card logout"
+            onclick="window.location.href='/logout'"
+        >
 
             <h2>🚪 Sair</h2>
+
             <p>Encerrar sessão</p>
 
         </div>
@@ -65,5 +303,422 @@
 
 </div>
 
+
+<script>
+
+/* ==================================================
+   ELEMENTOS
+================================================== */
+
+const formTime = document.getElementById("formTime");
+const mensagemTime = document.getElementById("mensagemTime");
+
+const formJogo = document.getElementById("formJogo");
+const mensagemJogo = document.getElementById("mensagemJogo");
+
+const formResultado = document.getElementById("formResultado");
+const mensagemResultado =
+    document.getElementById("mensagemResultado");
+
+const modalidadeJogo =
+    document.getElementById("modalidadeJogo");
+
+const time1Jogo =
+    document.getElementById("time1Jogo");
+
+const time2Jogo =
+    document.getElementById("time2Jogo");
+
+const jogoResultado =
+    document.getElementById("jogoResultado");
+
+
+/* ==================================================
+   CADASTRAR TIME
+================================================== */
+
+formTime.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+    const nome =
+        document.getElementById("nomeTime").value;
+
+    const turma =
+        document.getElementById("turmaTime").value;
+
+    const modalidade =
+        document.getElementById("modalidadeTime").value;
+
+
+    try {
+
+        const resposta = await fetch("/api/times", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                nome,
+                turma,
+                modalidade
+            })
+
+        });
+
+
+        const dados = await resposta.json();
+
+
+        if (!resposta.ok) {
+
+            mensagemTime.textContent =
+                dados.erro || "Erro ao cadastrar time.";
+
+            return;
+        }
+
+
+        mensagemTime.textContent =
+            dados.mensagem;
+
+
+        formTime.reset();
+
+
+        /* Atualiza os times disponíveis */
+
+        carregarTimes();
+
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        mensagemTime.textContent =
+            "Erro ao conectar com o servidor.";
+
+    }
+
+});
+
+
+/* ==================================================
+   CARREGAR TIMES
+================================================== */
+
+async function carregarTimes() {
+
+    try {
+
+        const resposta =
+            await fetch("/api/times");
+
+        const times =
+            await resposta.json();
+
+
+        time1Jogo.innerHTML = `
+            <option value="">
+                Selecione o primeiro time
+            </option>
+        `;
+
+        time2Jogo.innerHTML = `
+            <option value="">
+                Selecione o segundo time
+            </option>
+        `;
+
+
+        times.forEach((time) => {
+
+            const opcao1 =
+                document.createElement("option");
+
+            opcao1.value = time.id;
+
+            opcao1.textContent =
+                `${time.nome} - ${time.turma} (${time.modalidade})`;
+
+            time1Jogo.appendChild(opcao1);
+
+
+            const opcao2 =
+                document.createElement("option");
+
+            opcao2.value = time.id;
+
+            opcao2.textContent =
+                `${time.nome} - ${time.turma} (${time.modalidade})`;
+
+            time2Jogo.appendChild(opcao2);
+
+        });
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar times:",
+            erro
+        );
+
+    }
+
+}
+
+
+/* ==================================================
+   CADASTRAR JOGO
+================================================== */
+
+formJogo.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+
+    const time1_id =
+        time1Jogo.value;
+
+    const time2_id =
+        time2Jogo.value;
+
+    const modalidade =
+        modalidadeJogo.value;
+
+    const data_jogo =
+        document.getElementById("dataJogo").value;
+
+    const horario =
+        document.getElementById("horarioJogo").value;
+
+
+    try {
+
+        const resposta = await fetch("/api/jogos", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+
+                time1_id,
+                time2_id,
+                modalidade,
+                data_jogo,
+                horario
+
+            })
+
+        });
+
+
+        const dados =
+            await resposta.json();
+
+
+        if (!resposta.ok) {
+
+            mensagemJogo.textContent =
+                dados.erro ||
+                "Erro ao cadastrar jogo.";
+
+            return;
+
+        }
+
+
+        mensagemJogo.textContent =
+            dados.mensagem;
+
+
+        formJogo.reset();
+
+
+        carregarJogos();
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        mensagemJogo.textContent =
+            "Erro ao conectar com o servidor.";
+
+    }
+
+});
+
+
+/* ==================================================
+   CARREGAR JOGOS
+================================================== */
+
+async function carregarJogos() {
+
+    try {
+
+        const resposta =
+            await fetch("/api/jogos");
+
+        const jogos =
+            await resposta.json();
+
+
+        jogoResultado.innerHTML = `
+            <option value="">
+                Selecione um jogo
+            </option>
+        `;
+
+
+        jogos.forEach((jogo) => {
+
+            const opcao =
+                document.createElement("option");
+
+
+            opcao.value =
+                jogo.id;
+
+
+            opcao.textContent =
+                `${jogo.modalidade} - ${jogo.time1} x ${jogo.time2} - ${formatarData(jogo.data_jogo)} ${jogo.horario}`;
+
+
+            jogoResultado.appendChild(opcao);
+
+        });
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar jogos:",
+            erro
+        );
+
+    }
+
+}
+
+
+/* ==================================================
+   SALVAR RESULTADO
+================================================== */
+
+formResultado.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+
+    const jogo_id =
+        jogoResultado.value;
+
+
+    const gols_time1 =
+        document.getElementById("golsTime1").value;
+
+
+    const gols_time2 =
+        document.getElementById("golsTime2").value;
+
+
+    try {
+
+        const resposta =
+            await fetch("/api/jogos/resultado", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    jogo_id,
+                    gols_time1,
+                    gols_time2
+
+                })
+
+            });
+
+
+        const dados =
+            await resposta.json();
+
+
+        if (!resposta.ok) {
+
+            mensagemResultado.textContent =
+                dados.erro ||
+                "Erro ao salvar resultado.";
+
+            return;
+
+        }
+
+
+        mensagemResultado.textContent =
+            dados.mensagem;
+
+
+        formResultado.reset();
+
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        mensagemResultado.textContent =
+            "Erro ao conectar com o servidor.";
+
+    }
+
+});
+
+
+/* ==================================================
+   FORMATAR DATA
+================================================== */
+
+function formatarData(data) {
+
+    if (!data) {
+        return "";
+    }
+
+
+    const partes =
+        String(data).substring(0, 10).split("-");
+
+
+    if (partes.length !== 3) {
+        return data;
+    }
+
+
+    return `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+}
+
+
+/* ==================================================
+   INICIALIZAÇÃO
+================================================== */
+
+carregarTimes();
+
+carregarJogos();
+
+</script>
+
 </body>
 </html>
+```

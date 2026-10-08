@@ -9,52 +9,34 @@
 
 <title>Classificação - Futsal</title>
 
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="/style.css">
 
 <style>
 
-table{
-
-width:100%;
-
-border-collapse:collapse;
-
-margin-top:30px;
-
-background:white;
-
-border-radius:12px;
-
-overflow:hidden;
-
-box-shadow:0 5px 15px rgba(0,0,0,.15);
-
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,.15);
 }
 
-th{
-
-background:#0d1b2a;
-
-color:white;
-
-padding:15px;
-
+th {
+    background: #0d1b2a;
+    color: white;
+    padding: 15px;
 }
 
-td{
-
-padding:12px;
-
-text-align:center;
-
-border-bottom:1px solid #ddd;
-
+td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
 }
 
-tr:hover{
-
-background:#f5f5f5;
-
+tr:hover {
+    background: #f5f5f5;
 }
 
 </style>
@@ -71,6 +53,7 @@ background:#f5f5f5;
 
 </header>
 
+
 <section class="hero">
 
 <h2>⚽ FUTSAL</h2>
@@ -79,9 +62,12 @@ background:#f5f5f5;
 
 </section>
 
+
 <section class="container">
 
 <table>
+
+<thead>
 
 <tr>
 
@@ -97,85 +83,119 @@ background:#f5f5f5;
 
 <th>D</th>
 
-
-
 </tr>
+
+</thead>
+
+
+<tbody id="tabela-classificacao">
 
 <tr>
 
-<td>time a </td>
-
-<td>time b</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
+<td colspan="6">Carregando classificação...</td>
 
 </tr>
 
-<tr>
-
-<td>2°</td>
-
-<td>time a /td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-</tr>
-
-<tr>
-
-<td>3°</td>
-
-<td>2°C</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-<td>0</td>
-
-</tr>
+</tbody>
 
 </table>
 
 </section>
 
+
 <footer>
 
-Equipe 3°C
+InterHub © 2026
 
 </footer>
 
+
+<script>
+
+async function carregarClassificacao() {
+
+    try {
+
+        const resposta = await fetch(
+            "/api/classificacao?modalidade=Futsal"
+        );
+
+        if (!resposta.ok) {
+            throw new Error("Erro ao buscar classificação");
+        }
+
+        const dados = await resposta.json();
+
+        const tabela =
+            document.getElementById("tabela-classificacao");
+
+        tabela.innerHTML = "";
+
+        if (dados.length === 0) {
+
+            tabela.innerHTML = `
+                <tr>
+                    <td colspan="6">
+                        Nenhum time cadastrado no Futsal.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        dados.forEach((time, index) => {
+
+            const linha = document.createElement("tr");
+
+            linha.innerHTML = `
+
+                <td>${index + 1}°</td>
+
+                <td>${time.nome}</td>
+
+                <td>${time.pontos}</td>
+
+                <td>${time.vitorias}</td>
+
+                <td>${time.empates}</td>
+
+                <td>${time.derrotas}</td>
+
+            `;
+
+            tabela.appendChild(linha);
+
+        });
+
+    } catch (erro) {
+
+        console.error("Erro ao carregar classificação:", erro);
+
+        document.getElementById("tabela-classificacao").innerHTML = `
+
+            <tr>
+
+                <td colspan="6">
+
+                    Não foi possível carregar a classificação.
+
+                </td>
+
+            </tr>
+
+        `;
+
+    }
+
+}
+
+
+carregarClassificacao();
+
+</script>
+
+
 </body>
+
 </html>
