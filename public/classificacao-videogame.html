@@ -1,203 +1,150 @@
+
+
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
+    <title>Classificação - Videogame</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
 
-<title>Classificação - Videogame</title>
+    <style>
+        .tabela-container {
+            width: 100%;
+            overflow-x: auto;
+        }
 
-<link rel="stylesheet" href="/style.css">
+        table {
+            width: 100%;
+            min-width: 550px;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .15);
+        }
 
-<style>
+        th {
+            background: #0d1b2a;
+            color: white;
+            padding: 15px;
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 30px;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,.15);
-}
+        td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
 
-th {
-    background: #0d1b2a;
-    color: white;
-    padding: 15px;
-}
-
-td {
-    padding: 12px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-}
-
-tr:hover {
-    background: #f5f5f5;
-}
-
-</style>
-
+        tr:hover {
+            background: #f5f5f5;
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
+    <header>
+        <h1>Interclasse 2026</h1>
+        <span>Escola Exército Brasileiro</span>
+    </header>
+    <a href="/index.html" class="botao-inicio">🏠 Início</a>
+    <section class="hero">
+        <h2>🎮 VIDEOGAME</h2>
+        <p>Classificação</p>
+    </section>
 
-<h1>Interclasse 2026</h1>
+    <section class="container">
 
-<span>Escola Exército Brasileiro</span>
+        <div class="tabela-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pos</th>
+                        <th>Time</th>
+                        <th>Turma</th>
+                        <th>P</th>
+                        <th>V</th>
+                        <th>D</th>
+                    </tr>
+                </thead>
 
-</header>
+                <tbody id="tabela-classificacao">
+                    <tr>
+                        <td colspan="6">Carregando classificação...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
+    </section>
 
-<section class="hero">
+    <footer>
+        InterHub © 2026
+    </footer>
 
-<h2>🎮 VIDEOGAME</h2>
+    <script>
+        async function carregarClassificacao() {
+            try {
+                const resposta = await fetch(
+                    "/api/classificacao?modalidade=Videogame"
+                );
 
-<p>Classificação</p>
+                if (!resposta.ok) {
+                    throw new Error("Erro ao buscar classificação");
+                }
 
-</section>
+                const dados = await resposta.json();
 
+                const tabela = document.getElementById("tabela-classificacao");
 
-<section class="container">
+                tabela.innerHTML = "";
 
-<table>
+                if (dados.length === 0) {
+                    tabela.innerHTML = `
+                        <tr>
+                            <td colspan="6">
+                                Nenhum time cadastrado no Videogame.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
 
-<thead>
+                dados.forEach((time, index) => {
+                    const linha = document.createElement("tr");
 
-<tr>
+                    linha.innerHTML = `
+                        <td>${index + 1}º</td>
+                        <td>${time.nome}</td>
+                        <td>${time.turma || "-"}</td>
+                        <td>${time.pontos}</td>
+                        <td>${time.vitorias}</td>
+                        <td>${time.derrotas}</td>
+                    `;
 
-<th>Pos</th>
+                    tabela.appendChild(linha);
+                });
 
-<th>Time</th>
+            } catch (erro) {
+                console.error("Erro ao carregar classificação:", erro);
 
-<th>P</th>
-
-<th>V</th>
-
-<th>E</th>
-
-<th>D</th>
-
-</tr>
-
-</thead>
-
-
-<tbody id="tabela-classificacao">
-
-<tr>
-
-<td colspan="6">Carregando classificação...</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-</section>
-
-
-<footer>
-
-InterHub © 2026
-
-</footer>
-
-
-<script>
-
-async function carregarClassificacao() {
-
-    try {
-
-        const resposta = await fetch(
-            "/api/classificacao?modalidade=Videogame"
-        );
-
-        if (!resposta.ok) {
-            throw new Error("Erro ao buscar classificação");
+                document.getElementById("tabela-classificacao").innerHTML = `
+                    <tr>
+                        <td colspan="6">
+                            Não foi possível carregar a classificação.
+                        </td>
+                    </tr>
+                `;
+            }
         }
 
-        const dados = await resposta.json();
-
-        const tabela =
-            document.getElementById("tabela-classificacao");
-
-        tabela.innerHTML = "";
-
-        if (dados.length === 0) {
-
-            tabela.innerHTML = `
-                <tr>
-                    <td colspan="6">
-                        Nenhum time cadastrado no Videogame.
-                    </td>
-                </tr>
-            `;
-
-            return;
-        }
-
-        dados.forEach((time, index) => {
-
-            const linha = document.createElement("tr");
-
-            linha.innerHTML = `
-
-                <td>${index + 1}°</td>
-
-                <td>${time.nome}</td>
-
-                <td>${time.pontos}</td>
-
-                <td>${time.vitorias}</td>
-
-                <td>${time.empates}</td>
-
-                <td>${time.derrotas}</td>
-
-            `;
-
-            tabela.appendChild(linha);
-
-        });
-
-    } catch (erro) {
-
-        console.error(
-            "Erro ao carregar classificação:",
-            erro
-        );
-
-        document.getElementById(
-            "tabela-classificacao"
-        ).innerHTML = `
-
-            <tr>
-
-                <td colspan="6">
-                    Não foi possível carregar a classificação.
-                </td>
-
-            </tr>
-
-        `;
-
-    }
-
-}
-
-carregarClassificacao();
-
-</script>
-
+        carregarClassificacao();
+    </script>
 
 </body>
-
 </html>

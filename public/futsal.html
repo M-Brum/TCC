@@ -1,66 +1,216 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
+    <title>Futsal - InterHub</title>
+    <link rel="stylesheet" href="/style.css">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .jogos-lista {
+            display: grid;
+            gap: 15px;
+        }
 
-<title>Futsal</title>
+        .jogo-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, .08);
+            border-left: 5px solid #fca311;
+        }
 
-<link rel="stylesheet" href="/style.css">
+        .confronto {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1b263b;
+            text-align: center;
+        }
 
+        .detalhes {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            color: #555;
+        }
+
+        .placar {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fca311;
+            margin: 12px 0;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .finalizado {
+            color: #16803c;
+        }
+
+        .agendado {
+            color: #a66b00;
+        }
+
+        .mensagem {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .voltar {
+            display: inline-block;
+            margin-top: 20px;
+            background: #fca311;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: black;
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
+    <header>
+        <h1>Interclasse 2026</h1>
+        <span>Escola Exército Brasileiro</span>
+    </header>
+    <a href="/index.html" class="botao-inicio">🏠 Início</a>
+    <section class="hero">
+        <h2>⚽ FUTSAL</h2>
+        <p>Jogos da modalidade</p>
+    </section>
 
-<h1>Interclasse 2026</h1>
+    <section class="container">
 
-<span>Escola Exército Brasileiro</span>
+        <div class="highlight">
+            <h2>Jogos de Futsal</h2>
 
-</header>
+            <div class="jogos-lista" id="lista-jogos">
+                <p class="mensagem">Carregando jogos...</p>
+            </div>
 
-<section class="hero">
+            <a href="jogos.html" class="voltar">⬅ Voltar</a>
+        </div>
 
-<h2>⚽ FUTSAL</h2>
+    </section>
 
-<p>Jogos da modalidade</p>
+    <footer>
+        Equipe 3°C
+    </footer>
 
-</section>
+    <script>
+        async function carregarJogos() {
 
-<section class="container">
+            const lista = document.getElementById("lista-jogos");
 
-<div class="highlight">
+            try {
 
-<h2>Jogos</h2>
+                const resposta = await fetch("/api/jogos?modalidade=Futsal");
 
-<p>time a x time b</p>
+                if (!resposta.ok) {
+                    throw new Error("Não foi possível carregar os jogos.");
+                }
 
-<p>A definir</p>
+                const jogos = await resposta.json();
 
-<hr>
+                lista.innerHTML = "";
 
-<p>time a x time b</p>
+                if (jogos.length === 0) {
+                    lista.innerHTML = `
+                        <p class="mensagem">
+                            Nenhum jogo de Futsal cadastrado ainda.
+                        </p>
+                    `;
+                    return;
+                }
 
-<p>A defiinir</p>
+                jogos.forEach(jogo => {
 
-<hr>
+                    const card = document.createElement("div");
+                    card.classList.add("jogo-card");
 
-<p>time a x time b</p>
+                    const confronto = document.createElement("div");
+                    confronto.classList.add("confronto");
+                    confronto.textContent = `${jogo.time1} x ${jogo.time2}`;
 
-<p>A definir</p>
+                    const status = jogo.status || "Agendado";
 
-</div>
+                    const placar = document.createElement("div");
+                    placar.classList.add("placar");
 
-</section>
+                    if (status === "Finalizado") {
+                        placar.textContent =
+                            `${jogo.gols_time1} x ${jogo.gols_time2}`;
+                    } else {
+                        placar.textContent = "Aguardando resultado";
+                    }
 
-<footer>
+                    const data = jogo.data_jogo
+                        ? String(jogo.data_jogo)
+                            .split("T")[0]
+                            .split("-")
+                            .reverse()
+                            .join("/")
+                        : "A definir";
 
-Equipe 3°C
+                    const horario = jogo.horario
+                        ? String(jogo.horario).slice(0, 5)
+                        : "A definir";
 
-</footer>
+                    const detalhes = document.createElement("div");
+                    detalhes.classList.add("detalhes");
+
+                    const dataHorario = document.createElement("span");
+                    dataHorario.textContent = `📅 ${data} | 🕒 ${horario}`;
+
+                    const situacao = document.createElement("span");
+                    situacao.classList.add("status");
+                    situacao.classList.add(
+                        status === "Finalizado" ? "finalizado" : "agendado"
+                    );
+                    situacao.textContent = status;
+
+                    detalhes.appendChild(dataHorario);
+                    detalhes.appendChild(situacao);
+
+                    card.appendChild(confronto);
+                    card.appendChild(placar);
+                    card.appendChild(detalhes);
+
+                    lista.appendChild(card);
+
+                });
+
+            } catch (erro) {
+
+                console.error("Erro ao carregar jogos:", erro);
+
+                lista.innerHTML = `
+                    <p class="mensagem">
+                        Erro ao carregar os jogos de Futsal.
+                    </p>
+                `;
+            }
+        }
+
+        carregarJogos();
+
+        setInterval(() => {
+            if (!document.hidden) {
+                carregarJogos();
+            }
+        }, 10000);
+    </script>
 
 </body>
 </html>

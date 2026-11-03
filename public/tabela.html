@@ -1,93 +1,319 @@
+
+
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<title>Tabela de Jogos</title>
-<link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
+    <title>Resultados dos jogos - InterHub</title>
 
-body{
-    margin:0;
-    font-family:Arial;
-    background:#f4f6f9;
-}
+    <link rel="stylesheet" href="/style.css">
 
-header{
-    background:#0d1b2a;
-    color:white;
-    text-align:center;
-    padding:20px;
-}
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+        }
 
-h1{
-    color:#fca311;
-}
+        header {
+            background: #0d1b2a;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
 
-table{
-    width:90%;
-    margin:30px auto;
-    background:white;
-    border-collapse:collapse;
-}
+        h1 {
+            color: #fca311;
+        }
 
-th{
-    background:#fca311;
-    padding:15px;
-}
+        .filtro {
+            width: 90%;
+            margin: 30px auto 15px;
+        }
 
-td{
-    padding:15px;
-    text-align:center;
-    border-bottom:1px solid #ddd;
-}
+        .filtro label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
 
-.voltar{
-    margin-left:5%;
-    background:#fca311;
-    padding:10px 20px;
-    border-radius:8px;
-    text-decoration:none;
-    color:black;
-}
+        .filtro select {
+            padding: 12px;
+            width: 100%;
+            max-width: 350px;
+            border: 2px solid #fca311;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+        }
 
-</style>
+        .tabela-container {
+            width: 90%;
+            margin: 20px auto 30px;
+            background: white;
+            border-radius: 15px;
+            overflow-x: auto;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th {
+            background: #fca311;
+            padding: 15px;
+        }
+
+        td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8fafc;
+        }
+
+        tbody tr:hover {
+            background: #eef2f7;
+        }
+
+        td:nth-child(3) {
+            font-weight: bold;
+            color: #1b263b;
+        }
+
+        td:nth-child(4) {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fca311;
+        }
+
+        .status {
+            font-size: 13px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .finalizado {
+            color: #16803c;
+            background: #e5f6eb;
+        }
+
+        .agendado {
+            color: #a66b00;
+            background: #fff4d6;
+        }
+
+        .voltar {
+            display: inline-block;
+            margin: 5px 5% 25px;
+            background: #fca311;
+            padding: 15px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .voltar:hover {
+            background: #e69500;
+        }
+
+        @media (max-width: 600px) {
+            th, td {
+                padding: 12px 8px;
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<header>
-    <h1>📅 Tabela de Jogos</h1>
-</header>
+    <header>
+        <h1>🏆 Resultados dos jogos</h1>
+        <span>Interclasse 2026</span>
+    </header>
+    <a href="/index.html" class="botao-inicio">🏠 Início</a>
+    <section class="filtro">
+        <label for="modalidade">Selecione a modalidade:</label>
 
-<table>
+        <select id="modalidade" onchange="carregarJogos()">
+            <option value="">Todas as modalidades</option>
+            <option value="Futsal">Futsal</option>
+            <option value="Vôlei">Vôlei</option>
+            <option value="Basquete">Basquete</option>
+            <option value="Videogame">Videogame</option>
+            <option value="Tênis de Mesa">Tênis de Mesa</option>
+        </select>
+    </section>
 
-<tr>
-    <th>Data</th>
-    <th>Horário</th>
-    <th>Partida</th>
-</tr>
+    <div class="tabela-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Horário</th>
+                    <th>Partida</th>
+                    <th>Resultado</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
 
-<tr>
-    <td>20/06</td>
-    <td>09:00</td>
-    <td>3ºA x 3ºB</td>
-</tr>
+            <tbody id="tabela-jogos">
+                <tr>
+                    <td colspan="5">Carregando jogos...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-<tr>
-    <td>20/06</td>
-    <td>10:00</td>
-    <td>2ºA x 2ºC</td>
-</tr>
+    <a href="index.html" class="voltar">⬅ Voltar</a>
 
-<tr>
-    <td>21/06</td>
-    <td>09:00</td>
-    <td>1ºA x 1ºB</td>
-</tr>
+    <script>
+        async function carregarJogos(mostrarCarregando = true) {
 
-</table>
+            const tabela = document.getElementById("tabela-jogos");
+            const modalidade = document.getElementById("modalidade").value;
 
-<a href="index.html" class="voltar">⬅ Voltar</a>
+            if (mostrarCarregando) {
+                tabela.innerHTML = `
+                    <tr>
+                        <td colspan="5">Carregando jogos...</td>
+                    </tr>
+                `;
+            }
+
+            try {
+                let url = "/api/jogos";
+
+                if (modalidade) {
+                    url += "?modalidade=" + encodeURIComponent(modalidade);
+                }
+
+                const resposta = await fetch(url);
+
+                if (!resposta.ok) {
+                    throw new Error("Não foi possível carregar os jogos.");
+                }
+
+                const jogos = await resposta.json();
+
+                tabela.innerHTML = "";
+
+                if (jogos.length === 0) {
+                    tabela.innerHTML = `
+                        <tr>
+                            <td colspan="5">
+                                Nenhum jogo cadastrado nesta modalidade.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                jogos.forEach(jogo => {
+
+                    const linha = document.createElement("tr");
+
+                    const data = jogo.data_jogo
+                        ? String(jogo.data_jogo)
+                            .split("T")[0]
+                            .split("-")
+                            .reverse()
+                            .join("/")
+                        : "A definir";
+
+                    const horario = jogo.horario
+                        ? String(jogo.horario).slice(0, 5)
+                        : "A definir";
+
+                    const partida = `${jogo.time1} x ${jogo.time2}`;
+
+                    const status = jogo.status || "Agendado";
+
+                    const resultado1 = Number(jogo.resultado_time1 ?? jogo.gols_time1 ?? 0);
+                    const resultado2 = Number(jogo.resultado_time2 ?? jogo.gols_time2 ?? 0);
+
+                    let resultado = "Aguardando jogo";
+
+                    if (status === "Finalizado") {
+
+                        if (jogo.modalidade === "Videogame") {
+
+                            resultado = resultado1 > resultado2
+                                ? `🏆 ${jogo.time1}`
+                                : `🏆 ${jogo.time2}`;
+
+                        } else if (
+                            jogo.modalidade === "Vôlei" ||
+                            jogo.modalidade === "Tênis de Mesa"
+                        ) {
+
+                            resultado = `${resultado1} x ${resultado2} sets`;
+
+                        } else if (jogo.modalidade === "Basquete") {
+
+                            resultado = `${resultado1} x ${resultado2} pontos`;
+
+                        } else {
+
+                            resultado = `${resultado1} x ${resultado2} gols`;
+
+                        }
+                    }
+
+                    [data, horario, partida, resultado].forEach(informacao => {
+                        const coluna = document.createElement("td");
+                        coluna.textContent = informacao;
+                        linha.appendChild(coluna);
+                    });
+
+                    const colunaStatus = document.createElement("td");
+                    colunaStatus.textContent = status;
+                    colunaStatus.classList.add("status");
+
+                    if (status === "Finalizado") {
+                        colunaStatus.classList.add("finalizado");
+                    } else {
+                        colunaStatus.classList.add("agendado");
+                    }
+
+                    linha.appendChild(colunaStatus);
+                    tabela.appendChild(linha);
+
+                });
+
+            } catch (erro) {
+
+                console.error("Erro ao carregar jogos:", erro);
+
+                if (mostrarCarregando) {
+                    tabela.innerHTML = `
+                        <tr>
+                            <td colspan="5">Erro ao carregar os jogos.</td>
+                        </tr>
+                    `;
+                }
+            }
+        }
+
+        // Carrega os jogos assim que a página abre.
+        carregarJogos();
+
+        // Atualiza os resultados a cada 10 segundos.
+        setInterval(() => {
+            if (!document.hidden) {
+                carregarJogos(false);
+            }
+        }, 10000);
+    </script>
 
 </body>
 </html>

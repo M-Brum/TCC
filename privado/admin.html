@@ -1,47 +1,29 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-
-<meta charset="UTF-8">
-
-<title>Painel Administrativo - InterHub</title>
-
-<link rel="stylesheet" href="/admin.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - InterHub</title>
+    <link rel="stylesheet" href="/admin.css">
 </head>
 
 <body>
 
 <header>
-
-    <div class="logo">
-        InterHub Admin
-    </div>
-
-    <div>
-        Área Administrativa
-    </div>
-
+    <div class="logo">InterHub Admin</div>
+    <div>Área Administrativa</div>
 </header>
-
-
+<a href="/index.html" class="botao-inicio">🏠 Início</a>
 <div class="admin-container">
 
     <div class="cards">
 
-        <!-- =========================
-             CADASTRO DE TIMES
-        ========================== -->
-
+        <!-- CADASTRO DE TIMES -->
         <div class="card">
-
             <h2>📋 Times</h2>
-
             <p>Cadastrar novas equipes</p>
 
             <form id="formTime">
-
                 <input
                     type="text"
                     id="nomeTime"
@@ -57,258 +39,152 @@
                 >
 
                 <select id="modalidadeTime" required>
-
-                    <option value="">
-                        Selecione a modalidade
-                    </option>
-
-                    <option value="Futsal">
-                        ⚽ Futsal
-                    </option>
-
-                    <option value="Vôlei">
-                        🏐 Vôlei
-                    </option>
-
-                    <option value="Basquete">
-                        🏀 Basquete
-                    </option>
-
-                    <option value="Videogame">
-                        🎮 Videogame
-                    </option>
-
-                    <option value="Tênis de Mesa">
-                        🏓 Tênis de Mesa
-                    </option>
-
+                    <option value="">Selecione a modalidade</option>
+                    <option value="Futsal">⚽ Futsal</option>
+                    <option value="Vôlei">🏐 Vôlei</option>
+                    <option value="Basquete">🏀 Basquete</option>
+                    <option value="Videogame">🎮 Videogame</option>
+                    <option value="Tênis de Mesa">🏓 Tênis de Mesa</option>
                 </select>
 
-                <button type="submit">
-                    Cadastrar Time
-                </button>
-
+                <button type="submit">Cadastrar Time</button>
             </form>
 
             <p id="mensagemTime"></p>
-
         </div>
 
-
-        <!-- =========================
-             CADASTRO DE JOGOS
-        ========================== -->
-
+        <!-- CADASTRO DE JOGOS -->
         <div class="card">
-
             <h2>⚽ Jogos</h2>
-
             <p>Cadastrar uma nova partida</p>
 
             <form id="formJogo">
 
                 <select id="modalidadeJogo" required>
-
-                    <option value="">
-                        Selecione a modalidade
-                    </option>
-
-                    <option value="Futsal">
-                        ⚽ Futsal
-                    </option>
-
-                    <option value="Vôlei">
-                        🏐 Vôlei
-                    </option>
-
-                    <option value="Basquete">
-                        🏀 Basquete
-                    </option>
-
-                    <option value="Videogame">
-                        🎮 Videogame
-                    </option>
-
-                    <option value="Tênis de Mesa">
-                        🏓 Tênis de Mesa
-                    </option>
-
+                    <option value="">Selecione a modalidade</option>
+                    <option value="Futsal">⚽ Futsal</option>
+                    <option value="Vôlei">🏐 Vôlei</option>
+                    <option value="Basquete">🏀 Basquete</option>
+                    <option value="Videogame">🎮 Videogame</option>
+                    <option value="Tênis de Mesa">🏓 Tênis de Mesa</option>
                 </select>
-
 
                 <select id="time1Jogo" required>
-
-                    <option value="">
-                        Selecione o primeiro time
-                    </option>
-
+                    <option value="">Selecione o primeiro time</option>
                 </select>
-
 
                 <select id="time2Jogo" required>
-
-                    <option value="">
-                        Selecione o segundo time
-                    </option>
-
+                    <option value="">Selecione o segundo time</option>
                 </select>
 
+                <label for="dataJogo">Data do jogo</label>
+                <input type="date" id="dataJogo" required>
 
-                <label>
-                    Data do jogo
-                </label>
+                <label for="horarioJogo">Horário</label>
+                <input type="time" id="horarioJogo" required>
 
-                <input
-                    type="date"
-                    id="dataJogo"
-                    required
-                >
-
-
-                <label>
-                    Horário
-                </label>
-
-                <input
-                    type="time"
-                    id="horarioJogo"
-                    required
-                >
-
-
-                <button type="submit">
-                    Cadastrar Jogo
-                </button>
-
+                <button type="submit">Cadastrar Jogo</button>
             </form>
 
             <p id="mensagemJogo"></p>
-
         </div>
 
-
-        <!-- =========================
-             RESULTADOS
-        ========================== -->
-
+        <!-- RESULTADOS -->
         <div class="card">
-
             <h2>🥅 Resultados</h2>
-
             <p>Atualizar o resultado de uma partida</p>
 
             <form id="formResultado">
 
                 <select id="jogoResultado" required>
-
-                    <option value="">
-                        Selecione um jogo
-                    </option>
-
+                    <option value="">Carregando jogos...</option>
                 </select>
 
+                <div id="camposPlacar" style="display: none;">
 
-                <input
-                    type="number"
-                    id="golsTime1"
-                    min="0"
-                    placeholder="Gols do primeiro time"
-                    required
-                >
+                    <label id="labelResultado1" for="resultadoTime1">
+                        Resultado do primeiro time
+                    </label>
 
+                    <input
+                        type="number"
+                        id="resultadoTime1"
+                        min="0"
+                        step="1"
+                        placeholder="Resultado do primeiro time"
+                    >
 
-                <input
-                    type="number"
-                    id="golsTime2"
-                    min="0"
-                    placeholder="Gols do segundo time"
-                    required
-                >
+                    <label id="labelResultado2" for="resultadoTime2">
+                        Resultado do segundo time
+                    </label>
 
+                    <input
+                        type="number"
+                        id="resultadoTime2"
+                        min="0"
+                        step="1"
+                        placeholder="Resultado do segundo time"
+                    >
 
-                <button type="submit">
-                    Salvar Resultado
-                </button>
+                </div>
+
+                <div id="campoVencedor" style="display: none;">
+
+                    <label for="vencedorJogo">Quem venceu?</label>
+
+                    <select id="vencedorJogo">
+                        <option value="">Selecione o vencedor</option>
+                        <option value="1">Primeiro participante</option>
+                        <option value="2">Segundo participante</option>
+                    </select>
+
+                </div>
+
+                <button type="submit">Salvar Resultado</button>
 
             </form>
 
             <p id="mensagemResultado"></p>
-
         </div>
 
-
-        <!-- =========================
-             CLASSIFICAÇÃO
-        ========================== -->
-
+        <!-- CLASSIFICAÇÃO -->
         <div class="card">
-
             <h2>🏆 Classificação</h2>
-
             <p>
                 A classificação é atualizada automaticamente
                 quando um resultado é lançado.
             </p>
-
         </div>
 
-
-        <!-- =========================
-             TABELA
-        ========================== -->
-
+        <!-- RESULTADOS DO CAMPEONATO -->
         <div class="card">
-
-            <h2>📅 Tabela</h2>
-
+            <h2>📅 Resultados do Campeonato</h2>
             <p>
-                Os jogos cadastrados aparecem automaticamente
-                nas páginas de tabela.
+                As partidas cadastradas aparecem na página
+                de Resultados, organizadas por modalidade.
             </p>
-
         </div>
 
-
-        <!-- =========================
-             ESTATÍSTICAS
-        ========================== -->
-
+        <!-- ESTATÍSTICAS -->
         <div class="card">
-
             <h2>📊 Estatísticas</h2>
-
-            <p>
-                Área reservada para estatísticas do campeonato.
-            </p>
-
+            <p>Área reservada para estatísticas do campeonato.</p>
         </div>
 
-
-        <!-- =========================
-             SAIR
-        ========================== -->
-
-        <div
-            class="card logout"
-            onclick="window.location.href='/logout'"
-        >
-
+        <!-- SAIR -->
+        <div class="card logout" onclick="window.location.href='/logout'">
             <h2>🚪 Sair</h2>
-
             <p>Encerrar sessão</p>
-
         </div>
 
     </div>
-
 </div>
-
 
 <script>
 
-/* ==================================================
+/* =========================================
    ELEMENTOS
-================================================== */
+========================================= */
 
 const formTime = document.getElementById("formTime");
 const mensagemTime = document.getElementById("mensagemTime");
@@ -317,408 +193,481 @@ const formJogo = document.getElementById("formJogo");
 const mensagemJogo = document.getElementById("mensagemJogo");
 
 const formResultado = document.getElementById("formResultado");
-const mensagemResultado =
-    document.getElementById("mensagemResultado");
+const mensagemResultado = document.getElementById("mensagemResultado");
 
-const modalidadeJogo =
-    document.getElementById("modalidadeJogo");
+const modalidadeJogo = document.getElementById("modalidadeJogo");
 
-const time1Jogo =
-    document.getElementById("time1Jogo");
+const time1Jogo = document.getElementById("time1Jogo");
+const time2Jogo = document.getElementById("time2Jogo");
 
-const time2Jogo =
-    document.getElementById("time2Jogo");
+const jogoResultado = document.getElementById("jogoResultado");
 
-const jogoResultado =
-    document.getElementById("jogoResultado");
+const camposPlacar = document.getElementById("camposPlacar");
+const campoVencedor = document.getElementById("campoVencedor");
 
+const resultadoTime1 = document.getElementById("resultadoTime1");
+const resultadoTime2 = document.getElementById("resultadoTime2");
 
-/* ==================================================
+const vencedorJogo = document.getElementById("vencedorJogo");
+
+const labelResultado1 = document.getElementById("labelResultado1");
+const labelResultado2 = document.getElementById("labelResultado2");
+
+let jogosCarregados = [];
+
+/* =========================================
    CADASTRAR TIME
-================================================== */
+========================================= */
 
 formTime.addEventListener("submit", async (event) => {
-
     event.preventDefault();
 
-    const nome =
-        document.getElementById("nomeTime").value;
-
-    const turma =
-        document.getElementById("turmaTime").value;
-
-    const modalidade =
-        document.getElementById("modalidadeTime").value;
-
+    const nome = document.getElementById("nomeTime").value.trim();
+    const turma = document.getElementById("turmaTime").value.trim();
+    const modalidade = document.getElementById("modalidadeTime").value;
 
     try {
-
         const resposta = await fetch("/api/times", {
-
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json"
             },
-
             body: JSON.stringify({
                 nome,
                 turma,
                 modalidade
             })
-
         });
-
 
         const dados = await resposta.json();
 
-
         if (!resposta.ok) {
-
             mensagemTime.textContent =
                 dados.erro || "Erro ao cadastrar time.";
-
             return;
         }
 
-
-        mensagemTime.textContent =
-            dados.mensagem;
-
+        mensagemTime.textContent = dados.mensagem;
 
         formTime.reset();
 
-
-        /* Atualiza os times disponíveis */
-
-        carregarTimes();
-
+        await carregarTimes();
 
     } catch (erro) {
-
-        console.error(erro);
-
+        console.error("Erro ao cadastrar time:", erro);
         mensagemTime.textContent =
             "Erro ao conectar com o servidor.";
-
     }
-
 });
 
-
-/* ==================================================
+/* =========================================
    CARREGAR TIMES
-================================================== */
+========================================= */
 
 async function carregarTimes() {
-
     try {
+        const resposta = await fetch("/api/times");
 
-        const resposta =
-            await fetch("/api/times");
+        if (!resposta.ok) {
+            throw new Error("Não foi possível buscar os times.");
+        }
 
-        const times =
-            await resposta.json();
+        const times = await resposta.json();
 
+        time1Jogo.innerHTML =
+            '<option value="">Selecione o primeiro time</option>';
 
-        time1Jogo.innerHTML = `
-            <option value="">
-                Selecione o primeiro time
-            </option>
-        `;
-
-        time2Jogo.innerHTML = `
-            <option value="">
-                Selecione o segundo time
-            </option>
-        `;
-
+        time2Jogo.innerHTML =
+            '<option value="">Selecione o segundo time</option>';
 
         times.forEach((time) => {
-
-            const opcao1 =
-                document.createElement("option");
-
-            opcao1.value = time.id;
-
-            opcao1.textContent =
+            const texto =
                 `${time.nome} - ${time.turma} (${time.modalidade})`;
 
+            const opcao1 = document.createElement("option");
+            opcao1.value = time.id;
+            opcao1.textContent = texto;
             time1Jogo.appendChild(opcao1);
 
-
-            const opcao2 =
-                document.createElement("option");
-
+            const opcao2 = document.createElement("option");
             opcao2.value = time.id;
-
-            opcao2.textContent =
-                `${time.nome} - ${time.turma} (${time.modalidade})`;
-
+            opcao2.textContent = texto;
             time2Jogo.appendChild(opcao2);
-
         });
 
     } catch (erro) {
-
-        console.error(
-            "Erro ao carregar times:",
-            erro
-        );
-
+        console.error("Erro ao carregar times:", erro);
     }
-
 }
 
+/* =========================================
+   FILTRAR TIMES PELA MODALIDADE
+========================================= */
 
-/* ==================================================
-   CADASTRAR JOGO
-================================================== */
+modalidadeJogo.addEventListener("change", async () => {
+    await carregarTimesDaModalidade();
+});
 
-formJogo.addEventListener("submit", async (event) => {
+async function carregarTimesDaModalidade() {
+    const modalidade = modalidadeJogo.value;
 
-    event.preventDefault();
+    time1Jogo.innerHTML =
+        '<option value="">Selecione o primeiro time</option>';
 
+    time2Jogo.innerHTML =
+        '<option value="">Selecione o segundo time</option>';
 
-    const time1_id =
-        time1Jogo.value;
-
-    const time2_id =
-        time2Jogo.value;
-
-    const modalidade =
-        modalidadeJogo.value;
-
-    const data_jogo =
-        document.getElementById("dataJogo").value;
-
-    const horario =
-        document.getElementById("horarioJogo").value;
-
+    if (!modalidade) {
+        return;
+    }
 
     try {
+        const resposta = await fetch(
+            `/api/times?modalidade=${encodeURIComponent(modalidade)}`
+        );
 
+        if (!resposta.ok) {
+            throw new Error("Erro ao buscar times.");
+        }
+
+        const times = await resposta.json();
+
+        times.forEach((time) => {
+            const texto = `${time.nome} - ${time.turma}`;
+
+            const opcao1 = document.createElement("option");
+            opcao1.value = time.id;
+            opcao1.textContent = texto;
+            time1Jogo.appendChild(opcao1);
+
+            const opcao2 = document.createElement("option");
+            opcao2.value = time.id;
+            opcao2.textContent = texto;
+            time2Jogo.appendChild(opcao2);
+        });
+
+    } catch (erro) {
+        console.error("Erro ao filtrar times:", erro);
+    }
+}
+
+/* =========================================
+   CADASTRAR JOGO
+========================================= */
+
+formJogo.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const time1_id = time1Jogo.value;
+    const time2_id = time2Jogo.value;
+    const modalidade = modalidadeJogo.value;
+
+    const data_jogo = document.getElementById("dataJogo").value;
+    const horario = document.getElementById("horarioJogo").value;
+
+    if (time1_id === time2_id) {
+        mensagemJogo.textContent =
+            "Selecione dois times diferentes.";
+        return;
+    }
+
+    try {
         const resposta = await fetch("/api/jogos", {
-
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json"
             },
-
             body: JSON.stringify({
-
                 time1_id,
                 time2_id,
                 modalidade,
                 data_jogo,
                 horario
-
             })
-
         });
 
-
-        const dados =
-            await resposta.json();
-
+        const dados = await resposta.json();
 
         if (!resposta.ok) {
-
             mensagemJogo.textContent =
-                dados.erro ||
-                "Erro ao cadastrar jogo.";
-
+                dados.erro || "Erro ao cadastrar jogo.";
             return;
-
         }
 
-
-        mensagemJogo.textContent =
-            dados.mensagem;
-
+        mensagemJogo.textContent = dados.mensagem;
 
         formJogo.reset();
 
+        time1Jogo.innerHTML =
+            '<option value="">Selecione o primeiro time</option>';
 
-        carregarJogos();
+        time2Jogo.innerHTML =
+            '<option value="">Selecione o segundo time</option>';
+
+        await carregarJogos();
 
     } catch (erro) {
-
-        console.error(erro);
-
+        console.error("Erro ao cadastrar jogo:", erro);
         mensagemJogo.textContent =
             "Erro ao conectar com o servidor.";
-
     }
-
 });
 
-
-/* ==================================================
+/* =========================================
    CARREGAR JOGOS
-================================================== */
+========================================= */
 
 async function carregarJogos() {
-
     try {
+        const resposta = await fetch("/api/jogos");
 
-        const resposta =
-            await fetch("/api/jogos");
+        if (!resposta.ok) {
+            throw new Error("Não foi possível carregar os jogos.");
+        }
 
-        const jogos =
-            await resposta.json();
+        jogosCarregados = await resposta.json();
 
+        jogoResultado.innerHTML =
+            '<option value="">Selecione um jogo</option>';
 
-        jogoResultado.innerHTML = `
-            <option value="">
-                Selecione um jogo
-            </option>
-        `;
+        if (jogosCarregados.length === 0) {
+            jogoResultado.innerHTML =
+                '<option value="">Nenhum jogo cadastrado</option>';
+            return;
+        }
 
+        jogosCarregados.forEach((jogo) => {
+            const opcao = document.createElement("option");
 
-        jogos.forEach((jogo) => {
+            opcao.value = jogo.id;
 
-            const opcao =
-                document.createElement("option");
+            const r1 = Number(
+                jogo.resultado_time1 ?? jogo.gols_time1 ?? 0
+            );
 
+            const r2 = Number(
+                jogo.resultado_time2 ?? jogo.gols_time2 ?? 0
+            );
 
-            opcao.value =
-                jogo.id;
+            let placar = "Aguardando resultado";
 
+            if (jogo.status === "Finalizado") {
+                if (jogo.modalidade === "Videogame") {
+                    placar = r1 > r2
+                        ? `Vitória de ${jogo.time1}`
+                        : `Vitória de ${jogo.time2}`;
+                } else {
+                    placar = `${r1} x ${r2}`;
+                }
+            }
 
             opcao.textContent =
-                `${jogo.modalidade} - ${jogo.time1} x ${jogo.time2} - ${formatarData(jogo.data_jogo)} ${jogo.horario}`;
-
+                `${jogo.modalidade} - ${jogo.time1} x ${jogo.time2} - ` +
+                `${formatarData(jogo.data_jogo)} ${jogo.horario} | ` +
+                `${placar} | ${jogo.status}`;
 
             jogoResultado.appendChild(opcao);
-
         });
 
     } catch (erro) {
+        console.error("Erro ao carregar jogos:", erro);
 
-        console.error(
-            "Erro ao carregar jogos:",
-            erro
-        );
-
+        jogoResultado.innerHTML =
+            '<option value="">Erro ao carregar jogos</option>';
     }
-
 }
 
+/* =========================================
+   PREPARAR EDIÇÃO DO RESULTADO
+========================================= */
 
-/* ==================================================
-   SALVAR RESULTADO
-================================================== */
+jogoResultado.addEventListener("change", () => {
+    const jogo = jogosCarregados.find(
+        item => String(item.id) === String(jogoResultado.value)
+    );
 
-formResultado.addEventListener("submit", async (event) => {
+    resultadoTime1.value = "";
+    resultadoTime2.value = "";
+    vencedorJogo.value = "";
 
-    event.preventDefault();
+    camposPlacar.style.display = "none";
+    campoVencedor.style.display = "none";
 
+    resultadoTime1.required = false;
+    resultadoTime2.required = false;
+    vencedorJogo.required = false;
 
-    const jogo_id =
-        jogoResultado.value;
+    if (!jogo) {
+        return;
+    }
 
+    vencedorJogo.options[1].textContent = jogo.time1;
+    vencedorJogo.options[2].textContent = jogo.time2;
 
-    const gols_time1 =
-        document.getElementById("golsTime1").value;
+    const r1 = Number(
+        jogo.resultado_time1 ?? jogo.gols_time1 ?? 0
+    );
 
+    const r2 = Number(
+        jogo.resultado_time2 ?? jogo.gols_time2 ?? 0
+    );
 
-    const gols_time2 =
-        document.getElementById("golsTime2").value;
+    if (jogo.modalidade === "Videogame") {
+        campoVencedor.style.display = "block";
+        vencedorJogo.required = true;
 
-
-    try {
-
-        const resposta =
-            await fetch("/api/jogos/resultado", {
-
-                method: "POST",
-
-                headers: {
-                    "Content-Type": "application/json"
-                },
-
-                body: JSON.stringify({
-
-                    jogo_id,
-                    gols_time1,
-                    gols_time2
-
-                })
-
-            });
-
-
-        const dados =
-            await resposta.json();
-
-
-        if (!resposta.ok) {
-
-            mensagemResultado.textContent =
-                dados.erro ||
-                "Erro ao salvar resultado.";
-
-            return;
-
+        if (jogo.status === "Finalizado") {
+            vencedorJogo.value = r1 > r2 ? "1" : "2";
         }
 
+        return;
+    }
 
+    camposPlacar.style.display = "block";
+
+    resultadoTime1.required = true;
+    resultadoTime2.required = true;
+
+    if (jogo.modalidade === "Futsal") {
+        labelResultado1.textContent = "Gols do primeiro time";
+        labelResultado2.textContent = "Gols do segundo time";
+
+    } else if (jogo.modalidade === "Basquete") {
+        labelResultado1.textContent = "Pontos do primeiro time";
+        labelResultado2.textContent = "Pontos do segundo time";
+
+    } else {
+        labelResultado1.textContent = "Sets do primeiro participante";
+        labelResultado2.textContent = "Sets do segundo participante";
+    }
+
+    if (jogo.status === "Finalizado") {
+        resultadoTime1.value = r1;
+        resultadoTime2.value = r2;
+    }
+});
+
+/* =========================================
+   SALVAR RESULTADO
+========================================= */
+
+formResultado.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const jogo_id = jogoResultado.value;
+
+    const jogo = jogosCarregados.find(
+        item => String(item.id) === String(jogo_id)
+    );
+
+    if (!jogo) {
         mensagemResultado.textContent =
-            dados.mensagem;
+            "Selecione uma partida válida.";
+        return;
+    }
 
+    let resultado_time1;
+    let resultado_time2;
+
+    if (jogo.modalidade === "Videogame") {
+        if (!vencedorJogo.value) {
+            mensagemResultado.textContent =
+                "Selecione o vencedor.";
+            return;
+        }
+
+        resultado_time1 = vencedorJogo.value === "1" ? 1 : 0;
+        resultado_time2 = vencedorJogo.value === "2" ? 1 : 0;
+
+    } else {
+        if (
+            resultadoTime1.value === "" ||
+            resultadoTime2.value === ""
+        ) {
+            mensagemResultado.textContent =
+                "Preencha os dois resultados.";
+            return;
+        }
+
+        resultado_time1 = Number(resultadoTime1.value);
+        resultado_time2 = Number(resultadoTime2.value);
+
+        if (
+            !Number.isInteger(resultado_time1) ||
+            !Number.isInteger(resultado_time2) ||
+            resultado_time1 < 0 ||
+            resultado_time2 < 0
+        ) {
+            mensagemResultado.textContent =
+                "Informe resultados inteiros e válidos.";
+            return;
+        }
+    }
+
+    try {
+        const resposta = await fetch("/api/jogos/resultado", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                jogo_id,
+                resultado_time1,
+                resultado_time2
+            })
+        });
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+            mensagemResultado.textContent =
+                dados.erro || "Erro ao salvar resultado.";
+            return;
+        }
+
+        mensagemResultado.textContent = dados.mensagem;
+
+        await carregarJogos();
 
         formResultado.reset();
 
+        camposPlacar.style.display = "none";
+        campoVencedor.style.display = "none";
 
     } catch (erro) {
-
-        console.error(erro);
+        console.error("Erro ao salvar resultado:", erro);
 
         mensagemResultado.textContent =
             "Erro ao conectar com o servidor.";
-
     }
-
 });
 
-
-/* ==================================================
+/* =========================================
    FORMATAR DATA
-================================================== */
+========================================= */
 
 function formatarData(data) {
-
     if (!data) {
         return "";
     }
 
-
-    const partes =
-        String(data).substring(0, 10).split("-");
-
+    const partes = String(data).substring(0, 10).split("-");
 
     if (partes.length !== 3) {
         return data;
     }
 
-
     return `${partes[2]}/${partes[1]}/${partes[0]}`;
-
 }
 
-
-/* ==================================================
+/* =========================================
    INICIALIZAÇÃO
-================================================== */
+========================================= */
 
 carregarTimes();
-
 carregarJogos();
 
 </script>
 
 </body>
 </html>
-```

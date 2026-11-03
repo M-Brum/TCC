@@ -1,151 +1,184 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
+    <title>Tabela - Futsal | InterHub</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
 
-<title>Tabela - Futsal</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,.15);
+            border-radius: 12px;
+            overflow: hidden;
+        }
 
-<link rel="stylesheet" href="/style.css">
+        th {
+            background: #0d1b2a;
+            color: white;
+            padding: 15px;
+        }
 
-<style>
+        td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
 
-table{
+        tr:hover {
+            background: #f5f5f5;
+        }
 
-width:100%;
+        @media (max-width: 600px) {
+            .container {
+                overflow-x: auto;
+            }
 
-border-collapse:collapse;
-
-margin-top:30px;
-
-background:white;
-
-box-shadow:0 5px 15px rgba(0,0,0,.15);
-
-border-radius:12px;
-
-overflow:hidden;
-
-}
-
-th{
-
-background:#0d1b2a;
-
-color:white;
-
-padding:15px;
-
-}
-
-td{
-
-padding:15px;
-
-text-align:center;
-
-border-bottom:1px solid #ddd;
-
-}
-
-</style>
-
+            table {
+                min-width: 550px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
+    <header>
+        <h1>Interclasse 2026</h1>
+        <span>Escola Exército Brasileiro</span>
+    </header>
+    <a href="/index.html" class="botao-inicio">🏠 Início</a>
+    <section class="hero">
+        <h2>⚽ FUTSAL</h2>
+        <p>Tabela de Jogos</p>
+    </section>
 
-<h1>Interclasse 2026</h1>
+    <section class="container">
 
-<span>Escola Exército Brasileiro</span>
+        <table>
+            <thead>
+                <tr>
+                    <th>Rodada</th>
+                    <th>Confronto</th>
+                    <th>Data</th>
+                    <th>Horário</th>
+                    <th>Resultado</th>
+                </tr>
+            </thead>
 
-</header>
+            <tbody id="tabela-jogos">
+                <tr>
+                    <td colspan="5">Carregando jogos...</td>
+                </tr>
+            </tbody>
+        </table>
 
-<section class="hero">
+    </section>
 
-<h2>⚽ FUTSAL</h2>
+    <footer>
+        InterHub © 2026
+    </footer>
 
-<p>Tabela de Jogos</p>
+    <script>
+        async function carregarJogos() {
 
-</section>
+            const tabela = document.getElementById("tabela-jogos");
 
-<section class="container">
+            try {
+                const resposta = await fetch("/api/jogos?modalidade=Futsal");
 
-<table>
+                if (!resposta.ok) {
+                    throw new Error("Erro ao buscar jogos.");
+                }
 
-<tr>
+                const jogos = await resposta.json();
 
-<th>Rodada</th>
+                tabela.innerHTML = "";
 
-<th>Confronto</th>
+                if (jogos.length === 0) {
+                    tabela.innerHTML = `
+                        <tr>
+                            <td colspan="5">
+                                Nenhum jogo cadastrado no Futsal.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
 
-<th>Data</th>
+                jogos.forEach(jogo => {
 
-<th>Horário</th>
+                    const linha = document.createElement("tr");
 
-</tr>
+                    const rodada = document.createElement("td");
+                    rodada.textContent = "—";
 
-<tr>
+                    const confronto = document.createElement("td");
+                    confronto.textContent = `${jogo.time1} x ${jogo.time2}`;
 
-<td>1</td>
+                    const data = document.createElement("td");
 
-<td>time a x time b</td>
+                    if (jogo.data_jogo) {
+                        data.textContent = String(jogo.data_jogo)
+                            .split("T")[0]
+                            .split("-")
+                            .reverse()
+                            .join("/");
+                    } else {
+                        data.textContent = "A definir";
+                    }
 
-<td>data a definir</td>
+                    const horario = document.createElement("td");
 
-<td>horário a definir</td>
+                    horario.textContent = jogo.horario
+                        ? String(jogo.horario).slice(0, 5)
+                        : "A definir";
 
-</tr>
+                    const resultado = document.createElement("td");
 
-<tr>
+                    const gols1 = Number(jogo.gols_time1);
+                    const gols2 = Number(jogo.gols_time2);
 
-    <td>1</td>
+                    if (gols1 > 0 || gols2 > 0) {
+                        resultado.textContent = `${gols1} x ${gols2}`;
+                    } else {
+                        resultado.textContent = "A definir";
+                    }
 
-    <td>time a x time b</td>
-    
-    <td>data a definir</td>
-    
-    <td>horário a definir</td>
-    
-    </tr>
-    
-    <tr>
-    
-    <td>1</td>
-    
-    <td>time a x time b</td>
-    
-    <td>data a definir</td>
-    
-    <td>horário a defiinir</td>
-    
-    </tr>
-    
-    <tr>
-    
-    <td>1</td>
-    
-    <td>time a x time b</td>
-    
-    <td>data a definir</td>
-    
-    <td>horário a definir</td>
+                    linha.appendChild(rodada);
+                    linha.appendChild(confronto);
+                    linha.appendChild(data);
+                    linha.appendChild(horario);
+                    linha.appendChild(resultado);
 
-</tr>
+                    tabela.appendChild(linha);
+                });
 
-</table>
+            } catch (erro) {
 
-</section>
+                console.error("Erro ao carregar jogos:", erro);
 
-<footer>
+                tabela.innerHTML = `
+                    <tr>
+                        <td colspan="5">
+                            Não foi possível carregar os jogos.
+                        </td>
+                    </tr>
+                `;
+            }
+        }
 
-Equipe 3°C
-
-</footer>
+        carregarJogos();
+    </script>
 
 </body>
 </html>
+```

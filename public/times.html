@@ -1,87 +1,215 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-<meta charset="UTF-8">
-<title>Times</title>
-<link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
+    <title>Times - InterHub</title>
+    <link rel="stylesheet" href="/style.css">
 
-body{
-    margin:0;
-    font-family:Arial;
-    background:#f4f6f9;
-}
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+        }
 
-header{
-    background:#0d1b2a;
-    color:white;
-    text-align:center;
-    padding:20px;
-}
+        header {
+            background: #0d1b2a;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
 
-h1{
-    color:#fca311;
-}
+        h1 {
+            color: #fca311;
+        }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-    padding:30px;
-}
+        .filtro {
+            width: 90%;
+            margin: 30px auto 15px;
+        }
 
-.time{
-    background:white;
-    padding:25px;
-    border-radius:10px;
-    text-align:center;
-    box-shadow:0 4px 10px rgba(0,0,0,.1);
-}
+        .filtro label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
 
-.voltar{
-    margin:30px;
-    display:inline-block;
-    background:#fca311;
-    padding:10px 20px;
-    border-radius:8px;
-    text-decoration:none;
-    color:black;
-}
+        .filtro select {
+            padding: 12px;
+            width: 100%;
+            max-width: 350px;
+            border: 2px solid #fca311;
+            border-radius: 8px;
+            font-size: 16px;
+            background: white;
+        }
 
-</style>
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+            padding: 30px 5%;
+        }
+
+        .time {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, .1);
+            border-top: 5px solid #fca311;
+            transition: transform .2s;
+        }
+
+        .time:hover {
+            transform: translateY(-5px);
+        }
+
+        .time h2 {
+            color: #1b263b;
+            margin-top: 5px;
+        }
+
+        .modalidade {
+            display: inline-block;
+            background: #fff0d1;
+            color: #8a5700;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .voltar {
+            margin: 10px 5% 30px;
+            display: inline-block;
+            background: #fca311;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .mensagem {
+            grid-column: 1 / -1;
+            text-align: center;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .grid {
+                padding: 20px 5%;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<header>
-    <h1>📋 Times Participantes</h1>
-</header>
+    <header>
+        <h1>📋 Times Participantes</h1>
+        <span>Interclasse 2026</span>
+    </header>
+    <a href="/index.html" class="botao-inicio">🏠 Início</a>
+    <section class="filtro">
+        <label for="modalidade">Filtrar por modalidade:</label>
 
-<div class="grid">
+        <select id="modalidade" onchange="carregarTimes()">
+            <option value="">Todas as modalidades</option>
+            <option value="Futsal">Futsal</option>
+            <option value="Vôlei">Vôlei</option>
+            <option value="Basquete">Basquete</option>
+            <option value="Videogame">Videogame</option>
+            <option value="Tênis de Mesa">Tênis de Mesa</option>
+        </select>
+    </section>
 
-    <div class="time">
-        <h2>3ºA</h2>
-        <p>Capitão: João</p>
+    <div class="grid" id="lista-times">
+        <div class="mensagem">Carregando times...</div>
     </div>
 
-    <div class="time">
-        <h2>3ºB</h2>
-        <p>Capitão: Pedro</p>
-    </div>
+    <a href="index.html" class="voltar">⬅ Voltar</a>
 
-    <div class="time">
-        <h2>2ºA</h2>
-        <p>Capitão: Lucas</p>
-    </div>
+    <script>
+        async function carregarTimes() {
 
-    <div class="time">
-        <h2>2ºC</h2>
-        <p>Capitão: Gabriel</p>
-    </div>
+            const lista = document.getElementById("lista-times");
+            const modalidade = document.getElementById("modalidade").value;
 
-</div>
+            lista.innerHTML = `
+                <div class="mensagem">Carregando times...</div>
+            `;
 
-<a href="index.html" class="voltar">⬅ Voltar</a>
+            try {
+
+                let url = "/api/times";
+
+                if (modalidade) {
+                    url += "?modalidade=" + encodeURIComponent(modalidade);
+                }
+
+                const resposta = await fetch(url);
+
+                if (!resposta.ok) {
+                    throw new Error("Não foi possível carregar os times.");
+                }
+
+                const times = await resposta.json();
+
+                lista.innerHTML = "";
+
+                if (times.length === 0) {
+                    lista.innerHTML = `
+                        <div class="mensagem">
+                            Nenhum time cadastrado nesta modalidade.
+                        </div>
+                    `;
+                    return;
+                }
+
+                times.forEach(time => {
+
+                    const card = document.createElement("div");
+                    card.classList.add("time");
+
+                    const nome = document.createElement("h2");
+                    nome.textContent = time.nome;
+
+                    const turma = document.createElement("p");
+                    turma.textContent = "Turma: " + time.turma;
+
+                    const modalidade = document.createElement("span");
+                    modalidade.classList.add("modalidade");
+                    modalidade.textContent = time.modalidade;
+
+                    card.appendChild(nome);
+                    card.appendChild(turma);
+                    card.appendChild(modalidade);
+
+                    lista.appendChild(card);
+
+                });
+
+            } catch (erro) {
+
+                console.error("Erro ao carregar times:", erro);
+
+                lista.innerHTML = `
+                    <div class="mensagem">
+                        Erro ao carregar os times. Tente novamente.
+                    </div>
+                `;
+            }
+        }
+
+        carregarTimes();
+    </script>
 
 </body>
 </html>

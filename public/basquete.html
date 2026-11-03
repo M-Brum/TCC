@@ -1,66 +1,216 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
+    <title>Basquete - InterHub</title>
+    <link rel="stylesheet" href="/style.css">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .jogos-lista {
+            display: grid;
+            gap: 15px;
+        }
 
-<title>Basquete</title>
+        .jogo-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, .08);
+            border-left: 5px solid #fca311;
+        }
 
-<link rel="stylesheet" href="/style.css">
+        .confronto {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1b263b;
+            text-align: center;
+        }
 
+        .detalhes {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            color: #555;
+        }
+
+        .placar {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fca311;
+            margin: 12px 0;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .finalizado {
+            color: #16803c;
+        }
+
+        .agendado {
+            color: #a66b00;
+        }
+
+        .mensagem {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .voltar {
+            display: inline-block;
+            margin-top: 20px;
+            background: #fca311;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: black;
+        }
+    </style>
 </head>
 
 <body>
 
-<header>
+    <header>
+        <h1>Interclasse 2026</h1>
+        <span>Escola Exército Brasileiro</span>
+    </header>
+    <a href="/index.html" class="botao-inicio">🏠 Início</a>
 
-<h1>Interclasse 2026</h1>
+    <section class="hero">
+        <h2>🏀 BASQUETE</h2>
+        <p>Jogos da modalidade</p>
+    </section>
 
-<span>Escola Exército Brasileiro</span>
+    <section class="container">
 
-</header>
+        <div class="highlight">
+            <h2>Jogos de Basquete</h2>
 
-<section class="hero">
+            <div class="jogos-lista" id="lista-jogos">
+                <p class="mensagem">Carregando jogos...</p>
+            </div>
 
-<h2><h2>🏀 BASQUETE</h2></h2>
+            <a href="jogos.html" class="voltar">⬅ Voltar</a>
+        </div>
 
-<p>Jogos da modalidade</p>
+    </section>
 
-</section>
+    <footer>
+        Equipe 3°C
+    </footer>
 
-<section class="container">
+    <script>
+        async function carregarJogos() {
 
-<div class="highlight">
+            const lista = document.getElementById("lista-jogos");
 
-<h2>Jogos</h2>
+            try {
 
-<p>time a x time b</p>
+                const resposta = await fetch("/api/jogos?modalidade=Basquete");
 
-<p>a definir</p>
+                if (!resposta.ok) {
+                    throw new Error("Não foi possível carregar os jogos.");
+                }
 
-<hr>
+                const jogos = await resposta.json();
 
-<p>time a x time b</p>
+                lista.innerHTML = "";
 
-<p>a definir</p>
+                if (jogos.length === 0) {
+                    lista.innerHTML = `
+                        <p class="mensagem">
+                            Nenhum jogo de Basquete cadastrado ainda.
+                        </p>
+                    `;
+                    return;
+                }
 
-<hr>
+                jogos.forEach(jogo => {
 
-<p>time a x time b</p>
+                    const card = document.createElement("div");
+                    card.classList.add("jogo-card");
 
-<p>a definir</p>
+                    const confronto = document.createElement("div");
+                    confronto.classList.add("confronto");
+                    confronto.textContent = `${jogo.time1} x ${jogo.time2}`;
 
-</div>
+                    const status = jogo.status || "Agendado";
 
-</section>
+                    const placar = document.createElement("div");
+                    placar.classList.add("placar");
 
-<footer>
+                    if (status === "Finalizado") {
+                        placar.textContent =
+                            `${jogo.gols_time1} x ${jogo.gols_time2}`;
+                    } else {
+                        placar.textContent = "Aguardando resultado";
+                    }
 
-Equipe 3°C
+                    const data = jogo.data_jogo
+                        ? String(jogo.data_jogo)
+                            .split("T")[0]
+                            .split("-")
+                            .reverse()
+                            .join("/")
+                        : "A definir";
 
-</footer>
+                    const horario = jogo.horario
+                        ? String(jogo.horario).slice(0, 5)
+                        : "A definir";
+
+                    const detalhes = document.createElement("div");
+                    detalhes.classList.add("detalhes");
+
+                    const dataHorario = document.createElement("span");
+                    dataHorario.textContent = `📅 ${data} | 🕒 ${horario}`;
+
+                    const situacao = document.createElement("span");
+                    situacao.classList.add("status");
+                    situacao.classList.add(
+                        status === "Finalizado" ? "finalizado" : "agendado"
+                    );
+                    situacao.textContent = status;
+
+                    detalhes.appendChild(dataHorario);
+                    detalhes.appendChild(situacao);
+
+                    card.appendChild(confronto);
+                    card.appendChild(placar);
+                    card.appendChild(detalhes);
+
+                    lista.appendChild(card);
+
+                });
+
+            } catch (erro) {
+
+                console.error("Erro ao carregar jogos:", erro);
+
+                lista.innerHTML = `
+                    <p class="mensagem">
+                        Erro ao carregar os jogos de Basquete.
+                    </p>
+                `;
+            }
+        }
+
+        carregarJogos();
+
+        setInterval(() => {
+            if (!document.hidden) {
+                carregarJogos();
+            }
+        }, 10000);
+    </script>
 
 </body>
 </html>

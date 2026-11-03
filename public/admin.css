@@ -81,3 +81,39 @@ header{
 .logout:hover{
     background:#ba181b;
 }
+
+/* Ajuste do seletor de jogos no card Resultados */
+#formResultado {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+#jogoResultado {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Botão para voltar ao início */
+.botao-inicio {
+    display: inline-block;
+    margin: 20px 5%;
+    padding: 12px 22px;
+    background: #fca311;
+    color: #0d1b2a;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.botao-inicio:hover {
+    background: #e69500;
+    transform: translateY(-2px);
+}
