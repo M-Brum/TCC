@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -30,6 +29,24 @@
             text-align: center;
         }
 
+        .placar {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #fca311;
+            margin: 12px 0;
+        }
+
+        .vencedor {
+            color: #16803c;
+            font-size: 22px;
+        }
+
+        .resultado-indisponivel {
+            color: #777;
+            font-size: 18px;
+        }
+
         .detalhes {
             display: flex;
             justify-content: space-between;
@@ -37,14 +54,6 @@
             gap: 10px;
             margin-top: 15px;
             color: #555;
-        }
-
-        .placar {
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: #fca311;
-            margin: 12px 0;
         }
 
         .status {
@@ -57,6 +66,10 @@
 
         .agendado {
             color: #a66b00;
+        }
+
+        .em-andamento {
+            color: #1565c0;
         }
 
         .mensagem {
@@ -139,22 +152,57 @@
                     const card = document.createElement("div");
                     card.classList.add("jogo-card");
 
+                    // Confronto
                     const confronto = document.createElement("div");
                     confronto.classList.add("confronto");
                     confronto.textContent = `${jogo.time1} x ${jogo.time2}`;
 
                     const status = jogo.status || "Agendado";
 
+                    // Resultado da partida
                     const placar = document.createElement("div");
                     placar.classList.add("placar");
 
                     if (status === "Finalizado") {
-                        placar.textContent =
-                            `${jogo.gols_time1} x ${jogo.gols_time2}`;
+
+                        // Utiliza os campos de resultado, com fallback para os gols.
+                        const resultado1 = Number(
+                            jogo.resultado_time1 ?? jogo.gols_time1
+                        );
+
+                        const resultado2 = Number(
+                            jogo.resultado_time2 ?? jogo.gols_time2
+                        );
+
+                        if (resultado1 > resultado2) {
+
+                            placar.textContent = `🏆 Vencedor: ${jogo.time1}`;
+                            placar.classList.add("vencedor");
+
+                        } else if (resultado2 > resultado1) {
+
+                            placar.textContent = `🏆 Vencedor: ${jogo.time2}`;
+                            placar.classList.add("vencedor");
+
+                        } else {
+
+                            placar.textContent = "Resultado não disponível";
+                            placar.classList.add("resultado-indisponivel");
+
+                        }
+
+                    } else if (status === "Em andamento") {
+
+                        placar.textContent = "Partida em andamento";
+                        placar.classList.add("em-andamento");
+
                     } else {
-                        placar.textContent = "Aguardando resultado";
+
+                        placar.textContent = "Aguardando jogo";
+
                     }
 
+                    // Data
                     const data = jogo.data_jogo
                         ? String(jogo.data_jogo)
                             .split("T")[0]
@@ -163,10 +211,12 @@
                             .join("/")
                         : "A definir";
 
+                    // Horário
                     const horario = jogo.horario
                         ? String(jogo.horario).slice(0, 5)
                         : "A definir";
 
+                    // Detalhes
                     const detalhes = document.createElement("div");
                     detalhes.classList.add("detalhes");
 
@@ -175,14 +225,21 @@
 
                     const situacao = document.createElement("span");
                     situacao.classList.add("status");
-                    situacao.classList.add(
-                        status === "Finalizado" ? "finalizado" : "agendado"
-                    );
+
+                    if (status === "Finalizado") {
+                        situacao.classList.add("finalizado");
+                    } else if (status === "Em andamento") {
+                        situacao.classList.add("em-andamento");
+                    } else {
+                        situacao.classList.add("agendado");
+                    }
+
                     situacao.textContent = status;
 
                     detalhes.appendChild(dataHorario);
                     detalhes.appendChild(situacao);
 
+                    // Montagem do card
                     card.appendChild(confronto);
                     card.appendChild(placar);
                     card.appendChild(detalhes);
@@ -205,6 +262,7 @@
 
         carregarJogos();
 
+        // Atualiza os jogos automaticamente a cada 10 segundos
         setInterval(() => {
             if (!document.hidden) {
                 carregarJogos();
