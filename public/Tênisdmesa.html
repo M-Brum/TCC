@@ -148,11 +148,11 @@
                     placar.classList.add("placar");
 
                     if (status === "Finalizado") {
-                        placar.textContent =
-                            `${jogo.gols_time1} x ${jogo.gols_time2}`;
-                    } else {
-                        placar.textContent = "Aguardando resultado";
-                    }
+    placar.textContent =
+        `${jogo.resultado_time1} x ${jogo.resultado_time2}`;
+} else {
+    placar.textContent = "Aguardando resultado";
+}
 
                     const data = jogo.data_jogo
                         ? String(jogo.data_jogo)
